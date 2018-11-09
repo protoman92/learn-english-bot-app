@@ -20,7 +20,10 @@ const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
 
 sagaMiddleware.run(sagas);
 
-if (process.env.NODE_ENV === 'development') {
+if (
+  process.env.NODE_ENV === 'development' &&
+  process.env.ENABLE_WDYU === 'true'
+) {
   // tslint:disable-next-line
   const { whyDidYouUpdate } = require('why-did-you-update');
   whyDidYouUpdate(React);
