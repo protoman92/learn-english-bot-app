@@ -1,6 +1,5 @@
 import { Table, TableBody } from '@material-ui/core';
-import { getAllVocabIndexes } from 'accessors/vocab';
-import { actions } from 'actions/vocab';
+import { getters, setters } from 'actions/vocab';
 import Item from 'components/vocab/item/component';
 import { UndefinedProp } from 'javascriptutilities';
 import * as React from 'react';
@@ -28,11 +27,11 @@ const mapStateToProps: MapStateToProps<
   {},
   CombinedState
 > = state => {
-  return { itemIndexes: getAllVocabIndexes(state).value };
+  return { itemIndexes: getters.getAllVocabIndexes(state).value };
 };
 
 const mapDispatchToProps: MapDispatchToProps<DispatchProps, {}> = dispatch => ({
-  fetchVocabs: () => dispatch(actions.fetchVocabs())
+  fetchVocabs: () => dispatch(setters.fetchVocabs())
 });
 
 export default connect(

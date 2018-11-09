@@ -1,4 +1,6 @@
 import { Vocab } from 'data';
+import { Never, Objects, Try } from 'javascriptutilities';
+import { isDataWithValidStatus, State } from 'utils';
 import { Action } from './types';
 
 export namespace path {
@@ -18,7 +20,7 @@ export enum ActionKey {
   FETCH_VOCABS = 'VOCAB.FETCH_VOCABS'
 }
 
-export const actions = {
+export const setters = {
   fetchVocabs(): Action<ActionKey> {
     return { path: '', payload: undefined, type: ActionKey.FETCH_VOCABS };
   },
@@ -37,5 +39,30 @@ export const actions = {
       payload: value,
       type: 'DIRECT_UPDATE'
     };
+  }
+};
+
+export const getters = {
+  getAllVocabs(state: State.Type): Try<Array<Never<Partial<Vocab>>>> {
+    return state
+      .objectAtNode(path.allVocabs)
+      .map(vocabs => Objects.values(vocabs));
+  },
+
+  getAllVocabIndexes(state: State.Type): Try<number[]> {
+    return getters.getAllVocabs(state).map(vocabs =>
+      vocabs
+        .map((vocab, i): [unknown, number] => [vocab, i])
+        .filter(([vocab]) => isDataWithValidStatus(vocab))
+        .map(([vocab, i]) => i)
+    );
+  },
+
+  getVocabItemProp<V extends Vocab>(
+    state: State.Type,
+    index: number,
+    key: keyof V
+  ) {
+    return state.valueAtNode(path.vocabItemProp(index, key));
   }
 };

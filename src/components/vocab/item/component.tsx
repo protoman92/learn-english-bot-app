@@ -1,7 +1,6 @@
 import { TableCell, TableRow, TextField } from '@material-ui/core';
 import { TextFieldProps } from '@material-ui/core/TextField';
-import { getVocabItemProp } from 'accessors/vocab';
-import { actions } from 'actions/vocab';
+import { getters, setters } from 'actions/vocab';
 import { UndefinedProp } from 'javascriptutilities';
 import * as React from 'react';
 import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux';
@@ -27,7 +26,8 @@ const mapStateToProps: MapStateToProps<StateProps, Props, CombinedState> = (
   { vocabIndex }
 ) => {
   return {
-    word: getVocabItemProp(state, vocabIndex, 'word').stringOrFail().value
+    word: getters.getVocabItemProp(state, vocabIndex, 'word').stringOrFail()
+      .value
   };
 };
 
@@ -36,7 +36,7 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, Props> = (
   { vocabIndex }
 ) => ({
   changeWord: ({ target: { value } }) =>
-    dispatch(actions.setVocabItemProp(vocabIndex, 'word', value))
+    dispatch(setters.setVocabItemProp(vocabIndex, 'word', value))
 });
 
 export default pure(
