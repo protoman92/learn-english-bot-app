@@ -1,7 +1,7 @@
 import { Action } from 'actions/types';
 import { AnyAction, Reducer } from 'redux';
 import { State } from 'utils';
-import VocabReducer from './vocab';
+import VocabReducer from './vocabulary';
 
 export type CombinedState = State.Type;
 const allReducers = [VocabReducer];

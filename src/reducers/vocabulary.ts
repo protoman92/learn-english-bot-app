@@ -1,4 +1,4 @@
-import { setters } from 'actions/vocab';
+import { setters } from 'actions/vocabulary';
 import { Undefined, Unpacked } from 'javascriptutilities';
 import { State } from 'utils';
 

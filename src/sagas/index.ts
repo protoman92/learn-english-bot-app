@@ -1,8 +1,8 @@
 import { all } from 'redux-saga/effects';
-import createVocabSaga from './vocab';
+import createVocabularySaga from './vocabulary';
 
-export default function(api: import('apis').API) {
+export default function(api: import('apis').Api) {
   return function*() {
-    yield all([createVocabSaga(api.vocab)()]);
+    yield all([createVocabularySaga(api.vocabulary)()]);
   };
 }

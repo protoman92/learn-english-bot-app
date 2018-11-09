@@ -1,6 +1,6 @@
 import { Button, Table, TableBody } from '@material-ui/core';
-import { getters, setters } from 'actions/vocab';
-import Item from 'components/vocab/item/component';
+import { getters, setters } from 'actions/vocabulary';
+import Item from 'components/vocabulary/item/component';
 import { UndefinedProp } from 'javascriptutilities';
 import * as React from 'react';
 import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux';
@@ -9,15 +9,15 @@ import { CombinedState } from 'reducers';
 import './style.scss';
 
 type DispatchProps = Readonly<{
-  fetchVocabs: () => void;
-  saveVocabs: () => void;
+  fetchVocabularies: () => void;
+  saveVocabularies: () => void;
 }>;
 
 type StateProps = UndefinedProp<Readonly<{ itemIndexes: number[] }>>;
 
-function VocabList({
+function VocabularyList({
   itemIndexes = [],
-  saveVocabs
+  saveVocabularies
 }: DispatchProps & StateProps) {
   return (
     <div className="vocab-container">
@@ -29,7 +29,7 @@ function VocabList({
         </TableBody>
       </Table>
 
-      <Button className="confirm-vocab" onClick={saveVocabs}>
+      <Button className="confirm-vocab" onClick={saveVocabularies}>
         Save vocabularies
       </Button>
     </div>
@@ -41,21 +41,21 @@ const mapStateToProps: MapStateToProps<
   {},
   CombinedState
 > = state => {
-  return { itemIndexes: getters.getAllVocabIndexes(state).value };
+  return { itemIndexes: getters.getAllVocabularyIndexes(state).value };
 };
 
 const mapDispatchToProps: MapDispatchToProps<DispatchProps, {}> = dispatch => ({
-  fetchVocabs: () => dispatch(setters.fetchVocabs()),
-  saveVocabs: () => dispatch(setters.saveVocabs())
+  fetchVocabularies: () => dispatch(setters.fetchVocabularies()),
+  saveVocabularies: () => dispatch(setters.saveVocabularies())
 });
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(
-  lifecycle<Parameters<typeof VocabList>[0], {}>({
+  lifecycle<Parameters<typeof VocabularyList>[0], {}>({
     componentDidMount() {
-      this.props.fetchVocabs();
+      this.props.fetchVocabularies();
     }
-  })(VocabList)
+  })(VocabularyList)
 );

@@ -1,9 +1,11 @@
 import apisauce, { ApisauceConfig } from 'apisauce';
-import createVocab from './vocab';
+import createVocabularyAPI from './vocabulary';
 
-export type API = Readonly<{ vocab: ReturnType<typeof createVocab> }>;
+export type Api = Readonly<{
+  vocabulary: ReturnType<typeof createVocabularyAPI>;
+}>;
 
-export default function(config: Pick<ApisauceConfig, 'baseURL'>): API {
+export default function(config: Pick<ApisauceConfig, 'baseURL'>): Api {
   const api = apisauce.create(config);
-  return { vocab: createVocab(api) };
+  return { vocabulary: createVocabularyAPI(api) };
 }

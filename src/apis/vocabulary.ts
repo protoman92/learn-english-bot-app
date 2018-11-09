@@ -1,17 +1,18 @@
 import { ApisauceInstance } from 'apisauce';
 import * as Bluebird from 'bluebird';
-import { Vocab } from 'data';
+import { Vocabulary } from 'data';
 import { Never } from 'javascriptutilities';
 
 export default function(api: ApisauceInstance) {
   return {
-    async getVocabularies() {
-      return (await api.get<Never<Array<Never<Vocab>>>>('/vocabularies')).data;
+    async fetchVocabularies() {
+      return (await api.get<Never<Array<Never<Vocabulary>>>>('vocabularies'))
+        .data;
     },
 
-    async saveVocabularies(vocabs: Array<Partial<Vocab>>) {
+    async saveVocabularies(vocabs: Array<Partial<Vocabulary>>) {
       return Bluebird.map(vocabs, vocab =>
-        api.patch<Partial<Vocab>>('/vocabularies', vocab)
+        api.patch<Partial<Vocabulary>>('vocabularies', vocab)
       ).map(response => response.data);
     }
   };
