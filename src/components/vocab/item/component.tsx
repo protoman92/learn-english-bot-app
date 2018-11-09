@@ -1,17 +1,23 @@
-import { TableCell, TableRow } from '@material-ui/core';
+import { TableCell, TableRow, TextField } from '@material-ui/core';
+import { TextFieldProps } from '@material-ui/core/TextField';
 import { getVocabItemProp } from 'accessors/vocab';
+import { actions } from 'actions/vocab';
 import { UndefinedProp } from 'javascriptutilities';
 import * as React from 'react';
-import { connect, MapStateToProps } from 'react-redux';
+import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux';
+import { pure } from 'recompose';
 import { CombinedState } from 'reducers';
 
 type Props = Readonly<{ vocabIndex: number }>;
+type DispatchProps = Readonly<{ changeWord: TextFieldProps['onChange'] }>;
 type StateProps = UndefinedProp<Readonly<{ word: string }>>;
 
-function VocabItem({ word }: Props & StateProps) {
+function VocabItem({ changeWord, word }: Props & DispatchProps & StateProps) {
   return (
     <TableRow>
-      <TableCell>{word}</TableCell>
+      <TableCell>
+        <TextField onChange={changeWord} value={word} />
+      </TableCell>
     </TableRow>
   );
 }
@@ -25,4 +31,17 @@ const mapStateToProps: MapStateToProps<StateProps, Props, CombinedState> = (
   };
 };
 
-export default connect(mapStateToProps)(VocabItem);
+const mapDispatchToProps: MapDispatchToProps<DispatchProps, Props> = (
+  dispatch,
+  { vocabIndex }
+) => ({
+  changeWord: ({ target: { value } }) =>
+    dispatch(actions.setVocabItemProp(vocabIndex, 'word', value))
+});
+
+export default pure(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(VocabItem)
+);
