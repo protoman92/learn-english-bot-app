@@ -1,6 +1,7 @@
-import { Table, TableBody, TableCell, TableRow } from '@material-ui/core';
+import { Table, TableBody } from '@material-ui/core';
 import { getAllVocabIndexes } from 'accessor/vocab';
 import { actions } from 'actions/vocab';
+import Item from 'component/vocab/item/component';
 import { UndefinedProp } from 'javascriptutilities';
 import * as React from 'react';
 import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux';
@@ -15,9 +16,7 @@ function VocabList({ itemIndexes = [] }: DispatchProps & StateProps) {
     <Table className="vocab-list-container">
       <TableBody>
         {itemIndexes.map(vocabIndex => (
-          <TableRow key={vocabIndex}>
-            <TableCell>{vocabIndex}</TableCell>
-          </TableRow>
+          <Item vocabIndex={vocabIndex} />
         ))}
       </TableBody>
     </Table>

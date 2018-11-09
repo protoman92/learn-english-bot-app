@@ -1,10 +1,10 @@
-import { ActionKey } from 'actions/vocab';
-import { all, takeLatest } from 'redux-saga/effects';
+import { ActionKey, actions } from 'actions/vocab';
+import { all, put, takeLatest } from 'redux-saga/effects';
 
 export default function(vocabApi: import('api').API['vocab']) {
   function* fetchVocabularies(api: typeof vocabApi) {
     const vocabs = yield api.getVocabularies();
-    console.log(vocabs);
+    yield put(actions.setVocabs(vocabs));
   }
 
   return function*() {
