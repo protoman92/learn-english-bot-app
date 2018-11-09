@@ -1,16 +1,27 @@
 import { Vocab } from 'data';
 import { Action } from './types';
 
-type _ActionKey = never;
-const rootPath = 'vocab';
+export const rootPath = 'vocab';
+export const allVocabPath = `${rootPath}.all`;
 
-function setVocabs(vocabs: Vocab[]): Action<_ActionKey> {
-  return {
-    path: allVocabPath,
-    payload: vocabs,
-    type: 'DIRECT_UPDATE'
-  };
+export enum ActionKey {
+  FETCH_VOCABS = 'VOCAB.FETCH_VOCABS'
 }
 
-export const allVocabPath = `${rootPath}.all`;
-export default { setVocabs };
+export const actions = {
+  fetchVocabs(): Action<ActionKey> {
+    return {
+      path: '',
+      payload: undefined,
+      type: ActionKey.FETCH_VOCABS
+    };
+  },
+
+  setVocabs(vocabs: Vocab[]): Action<ActionKey> {
+    return {
+      path: allVocabPath,
+      payload: vocabs,
+      type: 'DIRECT_UPDATE'
+    };
+  }
+};
