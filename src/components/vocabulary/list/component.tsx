@@ -1,10 +1,11 @@
 import { Button, Divider, Typography } from '@material-ui/core';
 import { getters, setters } from 'actions/vocabulary';
+import { onlyUpdateWhenDeepEqual } from 'components/utils';
 import Item from 'components/vocabulary/item/component';
 import { UndefinedProp } from 'javascriptutilities';
 import * as React from 'react';
 import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux';
-import { lifecycle } from 'recompose';
+import { lifecycle, pure } from 'recompose';
 import { CombinedState } from 'reducers';
 import './style.scss';
 
@@ -60,13 +61,17 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, {}> = dispatch => ({
   saveVocabularies: () => dispatch(setters.saveVocabularies())
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(
-  lifecycle<Parameters<typeof VocabularyList>[0], {}>({
-    componentDidMount() {
-      this.props.fetchVocabularies();
-    }
-  })(VocabularyList)
+export default pure(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(
+    onlyUpdateWhenDeepEqual()(
+      lifecycle<Parameters<typeof VocabularyList>[0], {}>({
+        componentDidMount() {
+          this.props.fetchVocabularies();
+        }
+      })(VocabularyList)
+    )
+  )
 );

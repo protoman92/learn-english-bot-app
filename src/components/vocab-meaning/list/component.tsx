@@ -1,4 +1,5 @@
 import { getters } from 'actions/vocab-meaning';
+import { onlyUpdateWhenDeepEqual } from 'components/utils';
 import Item from 'components/vocab-meaning/item/component';
 import { UndefinedProp } from 'javascriptutilities';
 import * as React from 'react';
@@ -42,4 +43,6 @@ const mapStateToProps: MapStateToProps<StateProps, Props, CombinedState> = (
   };
 };
 
-export default pure(connect(mapStateToProps)(VocabMeaningList));
+export default pure(
+  connect(mapStateToProps)(onlyUpdateWhenDeepEqual()(VocabMeaningList))
+);
