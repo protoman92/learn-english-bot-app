@@ -1,4 +1,5 @@
 import { getters } from 'actions/vocab-meaning';
+import Item from 'components/vocab-meaning/item/component';
 import { UndefinedProp } from 'javascriptutilities';
 import * as React from 'react';
 import { connect, MapStateToProps } from 'react-redux';
@@ -9,11 +10,18 @@ import './style.scss';
 type Props = Readonly<{ vocabIndex: number }>;
 type StateProps = UndefinedProp<Readonly<{ itemIndexes: number[] }>>;
 
-function VocabMeaningList({ itemIndexes = [] }: Props & StateProps) {
+function VocabMeaningList({
+  vocabIndex,
+  itemIndexes = []
+}: Props & StateProps) {
   return (
     <div className="vocab-meaning-container">
       {itemIndexes.map(meaningIndex => (
-        <div key={meaningIndex} />
+        <Item
+          key={meaningIndex}
+          vocabIndex={vocabIndex}
+          meaningIndex={meaningIndex}
+        />
       ))}
     </div>
   );
