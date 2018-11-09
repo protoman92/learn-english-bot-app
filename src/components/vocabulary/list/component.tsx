@@ -1,4 +1,4 @@
-import { Button, Divider } from '@material-ui/core';
+import { Button, Divider, Typography } from '@material-ui/core';
 import { getters, setters } from 'actions/vocabulary';
 import Item from 'components/vocabulary/item/component';
 import { UndefinedProp } from 'javascriptutilities';
@@ -21,10 +21,20 @@ function VocabularyList({
 }: DispatchProps & StateProps) {
   return (
     <div className="vocab-container">
+      <div className="header-container">
+        {['Word', 'Definition', 'Part of Speech'].map((header, i) => (
+          <Typography key={i} align="left" variant="subheading">
+            {header}
+          </Typography>
+        ))}
+      </div>
+
+      <Divider className="header-divider" />
+
       <div className="vocab-list">
         {itemIndexes.map(vocabIndex => (
-          <span className="item-container">
-            <Item key={vocabIndex} vocabIndex={vocabIndex} />
+          <span className="item-container" key={vocabIndex}>
+            <Item vocabIndex={vocabIndex} />
             <Divider />
           </span>
         ))}

@@ -10,10 +10,10 @@
   }
 
   & > .word-input {
-    flex: 1 0 0;
+    flex: 0 0 calc(100% / 3 - #{grid-spacing(4) / 3});
   }
 
   & > .vocab-meaning-container {
-    flex: 2 0 0;
+    flex: 1 0 0;
   }
 }

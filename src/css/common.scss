@@ -2,4 +2,8 @@
   @return 8px * $multiplier;
 }
 
+@function semi-grid-spacing($multiplier) {
+  @return grid-spacing($multiplier) / 2;
+}
+
 $button-background: rgba(0, 0, 0, 0.1);
