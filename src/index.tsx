@@ -20,6 +20,12 @@ const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
 
 sagaMiddleware.run(sagas);
 
+if (process.env.NODE_ENV === 'development') {
+  // tslint:disable-next-line
+  const { whyDidYouUpdate } = require('why-did-you-update');
+  whyDidYouUpdate(React);
+}
+
 ReactDOM.render(
   <JssProvider
     jss={create(
