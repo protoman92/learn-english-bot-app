@@ -4,8 +4,8 @@ import { getters, setters } from 'actions/vocab-meaning';
 import { TextFieldFont } from 'components/utils';
 import { UndefinedProp } from 'javascriptutilities';
 import * as React from 'react';
-import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux';
-import { pure } from 'recompose';
+import { connect } from 'react-redux';
+import { compose, pure } from 'recompose';
 import { CombinedState } from 'reducers';
 import './style.scss';
 
@@ -38,35 +38,28 @@ function VocabMeaningItem({
   );
 }
 
-const mapStateToProps: MapStateToProps<StateProps, Props, CombinedState> = (
-  state,
-  { vocabIndex, meaningIndex }
-) => {
-  return {
-    def: getters
-      .getVocabMeaningItemProp(state, { vocabIndex, meaningIndex, key: 'def' })
-      .stringOrFail().value
-  };
-};
-
-const mapDispatchToProps: MapDispatchToProps<DispatchProps, Props> = (
-  dispatch,
-  { vocabIndex, meaningIndex }
-) => ({
-  changeDef: ({ target: { value } }) =>
-    dispatch(
-      setters.setVocabMeaningItemProp({
-        key: 'def',
-        meaningIndex,
-        value,
-        vocabIndex
-      })
-    )
-});
-
-export default pure(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(VocabMeaningItem)
-);
+export default compose<Parameters<typeof VocabMeaningItem>[0], Props>(
+  pure,
+  connect<StateProps, DispatchProps, Props, CombinedState>(
+    (state, { vocabIndex, meaningIndex }) => ({
+      def: getters
+        .getVocabMeaningItemProp(state, {
+          key: 'def',
+          meaningIndex,
+          vocabIndex
+        })
+        .stringOrFail().value
+    }),
+    (dispatch, { vocabIndex, meaningIndex }) => ({
+      changeDef: ({ target: { value } }) =>
+        dispatch(
+          setters.setVocabMeaningItemProp({
+            key: 'def',
+            meaningIndex,
+            value,
+            vocabIndex
+          })
+        )
+    })
+  )
+)(VocabMeaningItem);

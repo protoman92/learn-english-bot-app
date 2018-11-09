@@ -5,8 +5,8 @@ import { TextFieldFont } from 'components/utils';
 import MeaningList from 'components/vocab-meaning/list/component';
 import { UndefinedProp } from 'javascriptutilities';
 import * as React from 'react';
-import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux';
-import { pure } from 'recompose';
+import { connect } from 'react-redux';
+import { compose, pure } from 'recompose';
 import { CombinedState } from 'reducers';
 import './style.scss';
 
@@ -34,28 +34,17 @@ function VocabularyItem({
   );
 }
 
-const mapStateToProps: MapStateToProps<StateProps, Props, CombinedState> = (
-  state,
-  { vocabIndex: index }
-) => {
-  return {
-    word: getters
-      .getVocabularyItemProp(state, { index, key: 'word' })
-      .stringOrFail().value
-  };
-};
-
-const mapDispatchToProps: MapDispatchToProps<DispatchProps, Props> = (
-  dispatch,
-  { vocabIndex: index }
-) => ({
-  changeWord: ({ target: { value } }) =>
-    dispatch(setters.setVocabularyItemProp({ index, value, key: 'word' }))
-});
-
-export default pure(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(VocabularyItem)
-);
+export default compose<Parameters<typeof VocabularyItem>[0], Props>(
+  pure,
+  connect<StateProps, DispatchProps, Props, CombinedState>(
+    (state, { vocabIndex: index }) => ({
+      word: getters
+        .getVocabularyItemProp(state, { index, key: 'word' })
+        .stringOrFail().value
+    }),
+    (dispatch, { vocabIndex: index }) => ({
+      changeWord: ({ target: { value } }) =>
+        dispatch(setters.setVocabularyItemProp({ index, value, key: 'word' }))
+    })
+  )
+)(VocabularyItem);

@@ -4,8 +4,8 @@ import { onlyUpdateWhenDeepEqual } from 'components/utils';
 import Item from 'components/vocabulary/item/component';
 import { UndefinedProp } from 'javascriptutilities';
 import * as React from 'react';
-import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux';
-import { lifecycle, pure } from 'recompose';
+import { connect } from 'react-redux';
+import { compose, lifecycle, pure } from 'recompose';
 import { CombinedState } from 'reducers';
 import './style.scss';
 
@@ -48,30 +48,19 @@ function VocabularyList({
   );
 }
 
-const mapStateToProps: MapStateToProps<
-  StateProps,
-  {},
-  CombinedState
-> = state => {
-  return { itemIndexes: getters.getAllVocabularyIndexes(state).value };
-};
-
-const mapDispatchToProps: MapDispatchToProps<DispatchProps, {}> = dispatch => ({
-  fetchVocabularies: () => dispatch(setters.fetchVocabularies()),
-  saveVocabularies: () => dispatch(setters.saveVocabularies())
-});
-
-export default pure(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(
-    onlyUpdateWhenDeepEqual()(
-      lifecycle<Parameters<typeof VocabularyList>[0], {}>({
-        componentDidMount() {
-          this.props.fetchVocabularies();
-        }
-      })(VocabularyList)
-    )
-  )
-);
+export default compose<Parameters<typeof VocabularyList>[0], {}>(
+  pure,
+  connect<StateProps, DispatchProps, {}, CombinedState>(
+    state => ({ itemIndexes: getters.getAllVocabularyIndexes(state).value }),
+    dispatch => ({
+      fetchVocabularies: () => dispatch(setters.fetchVocabularies()),
+      saveVocabularies: () => dispatch(setters.saveVocabularies())
+    })
+  ),
+  onlyUpdateWhenDeepEqual(),
+  lifecycle<Parameters<typeof VocabularyList>[0], {}>({
+    componentDidMount() {
+      this.props.fetchVocabularies();
+    }
+  })
+)(VocabularyList);

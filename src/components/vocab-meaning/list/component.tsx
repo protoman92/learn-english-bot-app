@@ -3,8 +3,8 @@ import { onlyUpdateWhenDeepEqual } from 'components/utils';
 import Item from 'components/vocab-meaning/item/component';
 import { UndefinedProp } from 'javascriptutilities';
 import * as React from 'react';
-import { connect, MapStateToProps } from 'react-redux';
-import { pure } from 'recompose';
+import { connect } from 'react-redux';
+import { compose, pure } from 'recompose';
 import { CombinedState } from 'reducers';
 import './style.scss';
 
@@ -33,16 +33,11 @@ function VocabMeaningList({
   );
 }
 
-const mapStateToProps: MapStateToProps<StateProps, Props, CombinedState> = (
-  state,
-  { vocabIndex }
-) => {
-  return {
+export default compose<Parameters<typeof VocabMeaningList>[0], Props>(
+  pure,
+  connect<StateProps, {}, Props, CombinedState>((state, { vocabIndex }) => ({
     itemCount: getters.getAllVocabMeaningCount(state, vocabIndex).value,
     itemIndexes: getters.getAllVocabMeaningIndexes(state, vocabIndex).value
-  };
-};
-
-export default pure(
-  connect(mapStateToProps)(onlyUpdateWhenDeepEqual()(VocabMeaningList))
-);
+  })),
+  onlyUpdateWhenDeepEqual()
+)(VocabMeaningList);
