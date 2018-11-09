@@ -26,21 +26,21 @@ function VocabularyItem({
 
 const mapStateToProps: MapStateToProps<StateProps, Props, CombinedState> = (
   state,
-  { vocabIndex }
+  { vocabIndex: index }
 ) => {
   return {
     word: getters
-      .getVocabularyItemProp(state, vocabIndex, 'word')
+      .getVocabularyItemProp(state, { index, key: 'word' })
       .stringOrFail().value
   };
 };
 
 const mapDispatchToProps: MapDispatchToProps<DispatchProps, Props> = (
   dispatch,
-  { vocabIndex }
+  { vocabIndex: index }
 ) => ({
   changeWord: ({ target: { value } }) =>
-    dispatch(setters.setVocabularyItemProp(vocabIndex, 'word', value))
+    dispatch(setters.setVocabularyItemProp({ index, value, key: 'word' }))
 });
 
 export default pure(

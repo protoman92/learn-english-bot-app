@@ -4,17 +4,18 @@ import { isDataWithValidStatus, State } from 'utils';
 import { Action } from './types';
 
 export namespace path {
-  export const root = 'vocab';
+  const root = 'vocab';
+
   export const allVocabularies = `${root}.all`;
 
   export function vocabularyItem(index: number) {
     return `${allVocabularies}.${index}`;
   }
 
-  export function vocabularyItemProp<V extends Vocabulary>(
-    index: number,
-    key: keyof V
-  ) {
+  export function vocabularyItemProp<V extends Vocabulary>({
+    index,
+    key
+  }: Readonly<{ index: number; key: keyof V }>) {
     return `${vocabularyItem(index)}.${key}`;
   }
 }
@@ -42,13 +43,15 @@ export const setters = {
   },
 
   setVocabularyItemProp<V extends Vocabulary>(
-    index: number,
-    key: keyof V,
-    value: unknown
+    args: Readonly<{
+      index: number;
+      key: keyof V;
+      value: unknown;
+    }>
   ): Action<ActionKey> {
     return {
-      path: path.vocabularyItemProp(index, key),
-      payload: value,
+      path: path.vocabularyItemProp(args),
+      payload: args.value,
       type: 'DIRECT_UPDATE'
     };
   }
@@ -74,9 +77,8 @@ export const getters = {
 
   getVocabularyItemProp<V extends Vocabulary>(
     state: State.Type,
-    index: number,
-    key: keyof V
+    args: Readonly<{ index: number; key: keyof V }>
   ) {
-    return state.valueAtNode(path.vocabularyItemProp(index, key));
+    return state.valueAtNode(path.vocabularyItemProp(args));
   }
 };
