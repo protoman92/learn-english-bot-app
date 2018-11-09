@@ -12,10 +12,10 @@ export namespace path {
     return `${allVocabularies}.${index}`;
   }
 
-  export function vocabularyItemProp<V extends Vocabulary>({
+  export function vocabularyItemProp({
     index,
     key
-  }: Readonly<{ index: number; key: keyof V }>) {
+  }: Readonly<{ index: number; key: keyof Vocabulary }>) {
     return `${vocabularyItem(index)}.${key}`;
   }
 }
@@ -42,12 +42,9 @@ export const setters = {
     };
   },
 
-  setVocabularyItemProp<V extends Vocabulary>(
-    args: Readonly<{
-      index: number;
-      key: keyof V;
-      value: unknown;
-    }>
+  setVocabularyItemProp(
+    args: Parameters<typeof path.vocabularyItemProp>[0] &
+      Readonly<{ value: unknown }>
   ): Action<ActionKey> {
     return {
       path: path.vocabularyItemProp(args),
@@ -75,9 +72,9 @@ export const getters = {
     );
   },
 
-  getVocabularyItemProp<V extends Vocabulary>(
+  getVocabularyItemProp(
     state: State.Type,
-    args: Readonly<{ index: number; key: keyof V }>
+    args: Parameters<typeof path.vocabularyItemProp>[0]
   ) {
     return state.valueAtNode(path.vocabularyItemProp(args));
   }
