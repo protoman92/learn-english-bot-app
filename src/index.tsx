@@ -1,7 +1,10 @@
+import { CssBaseline, jssPreset } from '@material-ui/core';
 import createAPI from 'apis';
 import App from 'components/app/App';
+import { create, createGenerateClassName } from 'jss';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import { JssProvider } from 'react-jss';
 import { Provider } from 'react-redux';
 import { applyMiddleware, createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
@@ -18,9 +21,20 @@ const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
 sagaMiddleware.run(sagas);
 
 ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
+  <JssProvider
+    jss={create(
+      Object.assign({}, jssPreset(), {
+        insertionPoint: 'jss-insertion-point'
+      })
+    )}
+    generateClassName={createGenerateClassName()}
+  >
+    <CssBaseline>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </CssBaseline>
+  </JssProvider>,
   document.getElementById('root') as HTMLElement
 );
 
