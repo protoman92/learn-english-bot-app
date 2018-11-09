@@ -17,12 +17,17 @@ export namespace path {
 }
 
 export enum ActionKey {
-  FETCH_VOCABS = 'VOCAB.FETCH_VOCABS'
+  FETCH_VOCABS = 'VOCAB.FETCH_VOCABS',
+  SAVE_VOCABS = 'VOCAB.SAVE_VOCABS'
 }
 
 export const setters = {
   fetchVocabs(): Action<ActionKey> {
     return { path: '', payload: undefined, type: ActionKey.FETCH_VOCABS };
+  },
+
+  saveVocabs(): Action<ActionKey> {
+    return { path: '', payload: undefined, type: ActionKey.SAVE_VOCABS };
   },
 
   setVocabs(vocabs: Vocab[]): Action<ActionKey> {
