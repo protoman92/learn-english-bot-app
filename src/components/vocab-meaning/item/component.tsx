@@ -8,39 +8,55 @@ import { pure } from 'recompose';
 import { CombinedState } from 'reducers';
 import './style.scss';
 
-type Props = Readonly<{ vocabIndex: number; meaningIndex: number }>;
+type Props = Readonly<{
+  vocabIndex: number;
+  meaningIndex: number;
+  isDummy: boolean;
+}>;
+
 type DispatchProps = Readonly<{ changeDef: TextFieldProps['onChange'] }>;
 type StateProps = UndefinedProp<Readonly<{ def: string }>>;
 
 function VocabMeaningItem({
-  vocabIndex,
   changeDef,
   def
 }: Props & DispatchProps & StateProps) {
   return (
     <div className="vocab-meaning-item-container">
-      <TextField margin="dense" onChange={changeDef} value={def} />
+      <TextField
+        margin="dense"
+        onChange={changeDef}
+        placeholder="Enter definition"
+        value={def}
+      />
     </div>
   );
 }
 
 const mapStateToProps: MapStateToProps<StateProps, Props, CombinedState> = (
   state,
-  props
+  { vocabIndex, meaningIndex }
 ) => {
   return {
     def: getters
-      .getVocabMeaningItemProp(state, { ...props, key: 'def' })
+      .getVocabMeaningItemProp(state, { vocabIndex, meaningIndex, key: 'def' })
       .stringOrFail().value
   };
 };
 
 const mapDispatchToProps: MapDispatchToProps<DispatchProps, Props> = (
   dispatch,
-  props
+  { vocabIndex, meaningIndex }
 ) => ({
   changeDef: ({ target: { value } }) =>
-    dispatch(setters.setVocabMeaningItemProp({ ...props, value, key: 'def' }))
+    dispatch(
+      setters.setVocabMeaningItemProp({
+        key: 'def',
+        meaningIndex,
+        value,
+        vocabIndex
+      })
+    )
 });
 
 export default pure(

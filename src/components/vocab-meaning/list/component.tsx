@@ -8,19 +8,24 @@ import { CombinedState } from 'reducers';
 import './style.scss';
 
 type Props = Readonly<{ vocabIndex: number }>;
-type StateProps = UndefinedProp<Readonly<{ itemIndexes: number[] }>>;
+
+type StateProps = UndefinedProp<
+  Readonly<{ itemCount: number; itemIndexes: number[] }>
+>;
 
 function VocabMeaningList({
   vocabIndex,
+  itemCount = 0,
   itemIndexes = []
 }: Props & StateProps) {
   return (
     <div className="vocab-meaning-container">
-      {itemIndexes.map(meaningIndex => (
+      {[...itemIndexes, itemCount].map(meaningIndex => (
         <Item
           key={meaningIndex}
           vocabIndex={vocabIndex}
           meaningIndex={meaningIndex}
+          isDummy={meaningIndex === itemCount}
         />
       ))}
     </div>
@@ -32,6 +37,7 @@ const mapStateToProps: MapStateToProps<StateProps, Props, CombinedState> = (
   { vocabIndex }
 ) => {
   return {
+    itemCount: getters.getAllVocabMeaningCount(state, vocabIndex).value,
     itemIndexes: getters.getAllVocabMeaningIndexes(state, vocabIndex).value
   };
 };

@@ -41,13 +41,19 @@ export const setters = {
 };
 
 export const getters = {
-  getAllVocabMeanings<VM extends VocabMeaning>(
+  getAllVocabMeanings(
     state: State.Type,
     vocabIndex: number
-  ): Try<Array<Never<Partial<VM>>>> {
+  ): Try<Array<Never<Partial<VocabMeaning>>>> {
     return state
       .objectAtNode(path.allVocabMeanings(vocabIndex))
       .map(meanings => Objects.values(meanings));
+  },
+
+  getAllVocabMeaningCount(state: State.Type, vocabIndex: number) {
+    return getters
+      .getAllVocabMeanings(state, vocabIndex)
+      .map(meanings => meanings.length);
   },
 
   getAllVocabMeaningIndexes(state: State.Type, vocabIndex: number) {
