@@ -1,4 +1,4 @@
-import { Table, TableBody } from '@material-ui/core';
+import { Button, Table, TableBody } from '@material-ui/core';
 import { getters, setters } from 'actions/vocab';
 import Item from 'components/vocab/item/component';
 import { UndefinedProp } from 'javascriptutilities';
@@ -6,19 +6,24 @@ import * as React from 'react';
 import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { lifecycle } from 'recompose';
 import { CombinedState } from 'reducers';
+import './style.scss';
 
 type DispatchProps = Readonly<{ fetchVocabs: () => void }>;
 type StateProps = UndefinedProp<Readonly<{ itemIndexes: number[] }>>;
 
 function VocabList({ itemIndexes = [] }: DispatchProps & StateProps) {
   return (
-    <Table className="vocab-list-container">
-      <TableBody>
-        {itemIndexes.map(vocabIndex => (
-          <Item key={vocabIndex} vocabIndex={vocabIndex} />
-        ))}
-      </TableBody>
-    </Table>
+    <div className="vocab-container">
+      <Table className="vocab-list" padding="dense">
+        <TableBody>
+          {itemIndexes.map(vocabIndex => (
+            <Item key={vocabIndex} vocabIndex={vocabIndex} />
+          ))}
+        </TableBody>
+      </Table>
+
+      <Button className="confirm-vocab">Save vocabularies</Button>
+    </div>
   );
 }
 

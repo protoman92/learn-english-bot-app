@@ -1,7 +1,7 @@
 import VocabList from 'components/vocab/list/component';
 import logo from 'logo.svg';
 import * as React from 'react';
-import './App.css';
+import './App.scss';
 
 class App extends React.Component {
   public render() {
