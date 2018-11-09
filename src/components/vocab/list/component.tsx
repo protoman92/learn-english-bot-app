@@ -8,10 +8,17 @@ import { lifecycle } from 'recompose';
 import { CombinedState } from 'reducers';
 import './style.scss';
 
-type DispatchProps = Readonly<{ fetchVocabs: () => void }>;
+type DispatchProps = Readonly<{
+  fetchVocabs: () => void;
+  saveVocabs: () => void;
+}>;
+
 type StateProps = UndefinedProp<Readonly<{ itemIndexes: number[] }>>;
 
-function VocabList({ itemIndexes = [] }: DispatchProps & StateProps) {
+function VocabList({
+  itemIndexes = [],
+  saveVocabs
+}: DispatchProps & StateProps) {
   return (
     <div className="vocab-container">
       <Table className="vocab-list" padding="dense">
@@ -22,7 +29,9 @@ function VocabList({ itemIndexes = [] }: DispatchProps & StateProps) {
         </TableBody>
       </Table>
 
-      <Button className="confirm-vocab">Save vocabularies</Button>
+      <Button className="confirm-vocab" onClick={saveVocabs}>
+        Save vocabularies
+      </Button>
     </div>
   );
 }
@@ -36,7 +45,8 @@ const mapStateToProps: MapStateToProps<
 };
 
 const mapDispatchToProps: MapDispatchToProps<DispatchProps, {}> = dispatch => ({
-  fetchVocabs: () => dispatch(setters.fetchVocabs())
+  fetchVocabs: () => dispatch(setters.fetchVocabs()),
+  saveVocabs: () => dispatch(setters.saveVocabs())
 });
 
 export default connect(
