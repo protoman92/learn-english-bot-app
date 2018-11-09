@@ -2,7 +2,8 @@
   "extends": ["tslint:recommended", "tslint-react", "tslint-config-prettier"],
   "rules": {
     "no-console": false,
-    "no-namespace": false
+    "no-namespace": false,
+    "variable-name": false
   },
   "linterOptions": {
     "exclude": [

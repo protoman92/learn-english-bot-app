@@ -9,9 +9,6 @@ export type Api = Readonly<{
 
 export default function(config: Pick<ApisauceConfig, 'baseURL'>): Api {
   const api = apisauce.create(config);
-
-  return {
-    vocabMeaning: createVocabMeaningApi(api),
-    vocabulary: createVocabularyApi(api)
-  };
+  const vocabMeaning = createVocabMeaningApi(api);
+  return { vocabMeaning, vocabulary: createVocabularyApi(api, vocabMeaning) };
 }
