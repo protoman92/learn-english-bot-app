@@ -10,6 +10,18 @@
     margin-top: grid-spacing(1);
   }
 
+  & > .vocab-list {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    & > .item-container {
+      & > * {
+        margin-top: grid-spacing(1);
+      }
+    }
+  }
+
   & > .confirm-vocab {
     background-color: $button-background;
   }

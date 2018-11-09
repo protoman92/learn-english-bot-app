@@ -24,11 +24,14 @@ function VocabMeaningItem({
   return (
     <div className="vocab-meaning-item-container">
       <TextField
+        className="def-input"
         margin="dense"
         onChange={changeDef}
         placeholder="Enter definition"
         value={def}
       />
+
+      <div className="pos-input" />
     </div>
   );
 }

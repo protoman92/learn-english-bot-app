@@ -3,14 +3,17 @@
 .vocab-item-container {
   display: flex;
 
-  & > .vocab-item {
-    display: flex;
-    width: 100%;
-
-    & > * {
-      &:not(:first-child) {
-        margin-left: grid-spacing(1);
-      }
+  & > * {
+    &:not(:first-child) {
+      margin-left: grid-spacing(2);
     }
+  }
+
+  & > .word-input {
+    flex: 1 0 0;
+  }
+
+  & > .vocab-meaning-container {
+    flex: 2 0 0;
   }
 }

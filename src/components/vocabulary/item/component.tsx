@@ -1,4 +1,4 @@
-import { TableCell, TableRow, TextField } from '@material-ui/core';
+import { TextField } from '@material-ui/core';
 import { TextFieldProps } from '@material-ui/core/TextField';
 import { getters, setters } from 'actions/vocabulary';
 import MeaningList from 'components/vocab-meaning/list/component';
@@ -19,12 +19,16 @@ function VocabularyItem({
   word
 }: Props & DispatchProps & StateProps) {
   return (
-    <TableRow className="vocab-item-container">
-      <TableCell className="vocab-item">
-        <TextField margin="dense" onChange={changeWord} value={word} />
-        <MeaningList vocabIndex={vocabIndex} />
-      </TableCell>
-    </TableRow>
+    <div className="vocab-item-container">
+      <TextField
+        className="word-input"
+        margin="dense"
+        onChange={changeWord}
+        value={word}
+      />
+
+      <MeaningList vocabIndex={vocabIndex} />
+    </div>
   );
 }
 

@@ -1,4 +1,4 @@
-import { Button, Table, TableBody } from '@material-ui/core';
+import { Button, Divider } from '@material-ui/core';
 import { getters, setters } from 'actions/vocabulary';
 import Item from 'components/vocabulary/item/component';
 import { UndefinedProp } from 'javascriptutilities';
@@ -21,13 +21,14 @@ function VocabularyList({
 }: DispatchProps & StateProps) {
   return (
     <div className="vocab-container">
-      <Table className="vocab-list" padding="dense">
-        <TableBody>
-          {itemIndexes.map(vocabIndex => (
+      <div className="vocab-list">
+        {itemIndexes.map(vocabIndex => (
+          <span className="item-container">
             <Item key={vocabIndex} vocabIndex={vocabIndex} />
-          ))}
-        </TableBody>
-      </Table>
+            <Divider />
+          </span>
+        ))}
+      </div>
 
       <Button className="confirm-vocab" onClick={saveVocabularies}>
         Save vocabularies
