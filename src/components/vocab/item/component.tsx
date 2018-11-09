@@ -1,5 +1,5 @@
 import { TableCell, TableRow } from '@material-ui/core';
-import { getVocabItemProp } from 'accessor/vocab';
+import { getVocabItemProp } from 'accessors/vocab';
 import { UndefinedProp } from 'javascriptutilities';
 import * as React from 'react';
 import { connect, MapStateToProps } from 'react-redux';

@@ -1,5 +1,5 @@
 import { Table, TableBody } from '@material-ui/core';
-import { getAllVocabIndexes } from 'accessor/vocab';
+import { getAllVocabIndexes } from 'accessors/vocab';
 import { actions } from 'actions/vocab';
 import Item from 'components/vocab/item/component';
 import { UndefinedProp } from 'javascriptutilities';
