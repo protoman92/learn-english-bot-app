@@ -1,12 +1,10 @@
 import { actions } from 'actions/vocab';
-import { Unpacked } from 'javascriptutilities';
-import { Reducer } from 'redux';
+import { Undefined, Unpacked } from 'javascriptutilities';
 import { State } from 'utils';
 
-const _: Reducer<State.Type, ReturnType<Unpacked<typeof actions>>> = (
-  state = State.just({})
-) => {
-  return state;
-};
-
-export default _;
+export default function(
+  state: State.Type,
+  action: ReturnType<Unpacked<typeof actions>>
+): Undefined<State.Type> {
+  return undefined;
+}

@@ -16,7 +16,7 @@ function VocabList({ itemIndexes = [] }: DispatchProps & StateProps) {
     <Table className="vocab-list-container">
       <TableBody>
         {itemIndexes.map(vocabIndex => (
-          <Item vocabIndex={vocabIndex} />
+          <Item key={vocabIndex} vocabIndex={vocabIndex} />
         ))}
       </TableBody>
     </Table>
@@ -28,7 +28,7 @@ const mapStateToProps: MapStateToProps<
   {},
   CombinedState
 > = state => {
-  return { itemIndexes: getAllVocabIndexes(state.vocab).value };
+  return { itemIndexes: getAllVocabIndexes(state).value };
 };
 
 const mapDispatchToProps: MapDispatchToProps<DispatchProps, {}> = dispatch => ({

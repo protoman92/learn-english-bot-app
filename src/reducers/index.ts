@@ -1,21 +1,31 @@
 import { Action } from 'actions/types';
-import { combineReducers } from 'redux';
+import { AnyAction, Reducer } from 'redux';
 import { State } from 'utils';
-import vocab from './vocab';
+import VocabReducer from './vocab';
 
-export type CombinedState = Record<'default' | 'vocab', State.Type>;
-export type CombinedReducer = Record<keyof CombinedState, State.Type>;
+export type CombinedState = State.Type;
+const allReducers = [VocabReducer];
 
-const _ = combineReducers<CombinedReducer>({
-  default: (state = State.just({}), { path, payload, type }: Action) => {
-    switch (type) {
-      case 'DIRECT_UPDATE':
-        return state.updatingValue(path, payload);
+const _: Reducer<CombinedState, AnyAction> = (
+  state = State.just({}),
+  action: Action
+) => {
+  switch (action.type) {
+    case 'DIRECT_UPDATE':
+      return state.updatingValue(action.path, action.payload);
+  }
+
+  for (const reducer of allReducers) {
+    const nextState = reducer(state, action);
+
+    if (nextState) {
+      return nextState;
     }
 
-    return state;
-  },
-  vocab
-});
+    continue;
+  }
+
+  return state;
+};
 
 export default _;

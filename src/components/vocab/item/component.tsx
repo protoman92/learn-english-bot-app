@@ -21,7 +21,7 @@ const mapStateToProps: MapStateToProps<StateProps, Props, CombinedState> = (
   { vocabIndex }
 ) => {
   return {
-    word: getVocabItemProp(state.vocab, vocabIndex, 'word').stringOrFail().value
+    word: getVocabItemProp(state, vocabIndex, 'word').stringOrFail().value
   };
 };
 
