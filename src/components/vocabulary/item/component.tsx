@@ -1,24 +1,28 @@
 import { TableCell, TableRow, TextField } from '@material-ui/core';
 import { TextFieldProps } from '@material-ui/core/TextField';
 import { getters, setters } from 'actions/vocabulary';
+import MeaningList from 'components/vocab-meaning/list/component';
 import { UndefinedProp } from 'javascriptutilities';
 import * as React from 'react';
 import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { pure } from 'recompose';
 import { CombinedState } from 'reducers';
+import './style.scss';
 
 type Props = Readonly<{ vocabIndex: number }>;
 type DispatchProps = Readonly<{ changeWord: TextFieldProps['onChange'] }>;
 type StateProps = UndefinedProp<Readonly<{ word: string }>>;
 
 function VocabularyItem({
+  vocabIndex,
   changeWord,
   word
 }: Props & DispatchProps & StateProps) {
   return (
-    <TableRow>
-      <TableCell>
-        <TextField onChange={changeWord} value={word} />
+    <TableRow className="vocab-item-container">
+      <TableCell className="vocab-item">
+        <TextField margin="dense" onChange={changeWord} value={word} />
+        <MeaningList vocabIndex={vocabIndex} />
       </TableCell>
     </TableRow>
   );

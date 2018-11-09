@@ -1,0 +1,8 @@
+.vocab-item-container {
+  display: flex;
+
+  & > .vocab-item {
+    display: flex;
+    width: 100%;
+  }
+}
