@@ -16,4 +16,4 @@ function getVocabIndexes(state: State.Type): Try<number[]> {
   );
 }
 
-export default { getVocabs, getVocabIndexes };
+export { getVocabs, getVocabIndexes };
