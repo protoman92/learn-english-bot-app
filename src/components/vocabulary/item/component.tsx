@@ -1,6 +1,7 @@
 import { TextField } from '@material-ui/core';
 import { TextFieldProps } from '@material-ui/core/TextField';
 import { getters, setters } from 'actions/vocabulary';
+import { TextFieldFont } from 'components/utils';
 import MeaningList from 'components/vocab-meaning/list/component';
 import { UndefinedProp } from 'javascriptutilities';
 import * as React from 'react';
@@ -16,12 +17,13 @@ type StateProps = UndefinedProp<Readonly<{ word: string }>>;
 function VocabularyItem({
   vocabIndex,
   changeWord,
-  word
+  word = ''
 }: Props & DispatchProps & StateProps) {
   return (
     <div className="vocab-item-container">
       <TextField
         className="word-input"
+        inputProps={{ style: { fontSize: TextFieldFont.body1 } }}
         margin="dense"
         onChange={changeWord}
         value={word}
