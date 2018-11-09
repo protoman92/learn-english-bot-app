@@ -1,4 +1,4 @@
-import VocabList from 'component/vocab/list/component';
+import VocabList from 'components/vocab/list/component';
 import logo from 'logo.svg';
 import * as React from 'react';
 import './App.css';

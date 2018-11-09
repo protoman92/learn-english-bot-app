@@ -1,7 +1,7 @@
 import { Table, TableBody } from '@material-ui/core';
 import { getAllVocabIndexes } from 'accessor/vocab';
 import { actions } from 'actions/vocab';
-import Item from 'component/vocab/item/component';
+import Item from 'components/vocab/item/component';
 import { UndefinedProp } from 'javascriptutilities';
 import * as React from 'react';
 import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux';
