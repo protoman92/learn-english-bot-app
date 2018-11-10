@@ -25,6 +25,7 @@ type DispatchProps = Readonly<{
 
 type StateProps = UndefinedProp<
   Readonly<{
+    itemCount: number;
     itemIndexes: number[];
     pageNumber: number;
     rowsPerPage: number;
@@ -33,6 +34,7 @@ type StateProps = UndefinedProp<
 >;
 
 function VocabularyList({
+  itemCount = 0,
   itemIndexes = [],
   pageNumber = 0,
   rowsPerPage = itemIndexes.length,
@@ -41,15 +43,16 @@ function VocabularyList({
   changeRowsPerPage,
   saveVocabularies
 }: DispatchProps & StateProps) {
+  const allIndexes = [...itemIndexes, itemCount];
   const startIndex = pageNumber * rowsPerPage;
-  const chosenIndexes = itemIndexes.slice(startIndex, startIndex + rowsPerPage);
+  const chosenIndexes = allIndexes.slice(startIndex, startIndex + rowsPerPage);
 
   return (
     <div className="vocab-container">
       <div className="header-container">
         {['Word', 'Definition', 'Class'].map((header, i) => (
           <span key={i}>
-            <StaticTypography align="left" variant="subheading">
+            <StaticTypography align="left" variant="subtitle1">
               {header}
             </StaticTypography>
 
@@ -73,7 +76,7 @@ function VocabularyList({
         <TableBody>
           <TableRow>
             <TablePagination
-              count={itemIndexes.length}
+              count={allIndexes.length}
               onChangePage={changePageNumber}
               onChangeRowsPerPage={changeRowsPerPage}
               rowsPerPage={rowsPerPage}
@@ -100,6 +103,7 @@ export default compose<Parameters<typeof VocabularyList>[0], {}>(
   pure,
   connect<StateProps, DispatchProps, {}, CombinedState>(
     state => ({
+      itemCount: getters.getAllVocabularyCount(state).value,
       itemIndexes: getters.getAllVocabularyIndexes(state).value,
       pageNumber: getters.getPageNumber(state).value,
       rowsPerPage: getters.getRowsPerPage(state).value,

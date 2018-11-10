@@ -92,6 +92,10 @@ export const getters = {
       .map(vocabs => Objects.values(vocabs));
   },
 
+  getAllVocabularyCount(state: State.Type) {
+    return getters.getAllVocabularies(state).map(vocabs => vocabs.length);
+  },
+
   getAllVocabularyIndexes(state: State.Type): Try<number[]> {
     return getters.getAllVocabularies(state).map(vocabs =>
       vocabs

@@ -37,6 +37,7 @@ function VocabularyItem({
         inputProps={{ style: { fontSize: TextFieldFont.body1 } }}
         margin="dense"
         onChange={changeWord}
+        placeholder={'Enter word'}
         value={word}
       />
 
