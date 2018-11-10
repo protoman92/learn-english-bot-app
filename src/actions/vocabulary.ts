@@ -7,6 +7,7 @@ export namespace path {
   const root = 'vocab_';
   export const pageNumber = `${root}pageNumber`;
   export const rowsPerPage = `${root}rowsPerPage`;
+  export const progress = `${root}progress`;
 
   export const allVocabularies = `${root}all`;
 
@@ -52,7 +53,9 @@ export const setters = {
     return { path: '', payload: undefined, type: ActionKey.SAVE_VOCABULARIES };
   },
 
-  setVocabularies(vocabs: Vocabulary[]): Action<ActionKey> {
+  setVocabularies(
+    vocabs: Never<Array<Never<Partial<Vocabulary>>>>
+  ): Action<ActionKey> {
     return {
       path: path.allVocabularies,
       payload: vocabs,
@@ -67,6 +70,14 @@ export const setters = {
     return {
       path: path.vocabularyItemProp(args),
       payload: args.value,
+      type: 'DIRECT_UPDATE'
+    };
+  },
+
+  setProgress(enabled: boolean): Action<ActionKey> {
+    return {
+      path: path.progress,
+      payload: enabled,
       type: 'DIRECT_UPDATE'
     };
   }
@@ -103,5 +114,9 @@ export const getters = {
 
   getPageNumber(state: State.Type) {
     return state.numberAtNode(path.pageNumber);
+  },
+
+  getProgress(state: State.Type) {
+    return state.booleanAtNode(path.progress);
   }
 };
