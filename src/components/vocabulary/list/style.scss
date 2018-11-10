@@ -1,14 +1,16 @@
 @import '~css/common';
 
 .vocab-container {
+  $vertical-child-spacing: grid-spacing(2);
+
   align-items: flex-end;
   display: flex;
   flex-direction: column;
-  padding: 0 grid-spacing(2);
 
   & > .header-container {
     display: flex;
     margin-top: grid-spacing(1);
+    padding: 0 $vertical-child-spacing;
     width: 100%;
 
     & > * {
@@ -33,6 +35,10 @@
 
     & > .item-container {
       & > * {
+        &:first-child {
+          padding: 0 $vertical-child-spacing;
+        }
+
         &:not(:first-child) {
           margin-top: semi-grid-spacing(1);
         }
@@ -42,6 +48,6 @@
 
   & > .confirm-vocab {
     background-color: $button-background;
-    margin-top: grid-spacing(2);
+    margin: grid-spacing(2) $vertical-child-spacing 0;
   }
 }
