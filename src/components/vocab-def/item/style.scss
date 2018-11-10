@@ -1,0 +1,13 @@
+@import '~css/common';
+
+.vocab-def-item-container {
+  display: flex;
+
+  & > * {
+    flex: 1 0 0;
+
+    &:not(:first-child) {
+      margin-left: $vocab-vertical-spacing;
+    }
+  }
+}

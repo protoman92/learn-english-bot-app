@@ -1,13 +1,13 @@
 @import '~css/common';
 
-.vocab-meaning-item-container {
+.vocab-pos-item-container {
   display: flex;
 
   & > * {
     flex: 1 0 0;
 
     &:not(:first-child) {
-      margin-left: grid-spacing(2);
+      margin-left: $vocab-vertical-spacing;
     }
   }
 }

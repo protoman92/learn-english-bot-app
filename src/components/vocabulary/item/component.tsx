@@ -3,7 +3,8 @@ import { TextFieldProps } from '@material-ui/core/TextField';
 import { Delete } from '@material-ui/icons';
 import { getters, setters } from 'actions/vocabulary';
 import { TextFieldFont } from 'components/utils';
-import MeaningList from 'components/vocab-meaning/list/component';
+import DefList from 'components/vocab-def/list/component';
+import PosList from 'components/vocab-pos/list/component';
 import { UndefinedProp } from 'javascriptutilities';
 import * as React from 'react';
 import { connect } from 'react-redux';
@@ -36,7 +37,8 @@ function VocabularyItem({
         value={word}
       />
 
-      <MeaningList vocabIndex={vocabIndex} />
+      <DefList vocabIndex={vocabIndex} />
+      <PosList vocabIndex={vocabIndex} />
 
       <IconButton className="delete-icon" onClick={deleteVocab}>
         <Delete />

@@ -1,25 +1,22 @@
 @import '~css/common';
 
 .vocab-item-container {
-  $delete-icon-dimen: grid-spacing(6);
   display: flex;
 
   & > * {
     &:not(:first-child) {
-      margin-left: grid-spacing(2);
+      margin-left: $vocab-vertical-spacing;
     }
   }
 
-  & > .word-input {
-    flex: 0 0 calc(100% / 3 - #{grid-spacing(4) / 3});
-  }
-
-  & > .vocab-meaning-container {
-    flex: 1 0 0;
+  & > * {
+    &:not(.delete-icon) {
+      flex: 1 0 0;
+    }
   }
 
   & > .delete-icon {
-    height: $delete-icon-dimen;
-    width: $delete-icon-dimen;
+    height: $icon-dimen;
+    width: $icon-dimen;
   }
 }

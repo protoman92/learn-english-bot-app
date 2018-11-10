@@ -1,17 +1,14 @@
 @import '~css/common';
 
 .vocab-container {
-  $vertical-child-spacing: grid-spacing(2);
-
-  align-items: flex-end;
   display: flex;
   flex-direction: column;
 
   & > .header-container {
     display: flex;
     margin-top: grid-spacing(1);
-    padding: 0 $vertical-child-spacing;
-    width: 100%;
+    padding: 0 $vocab-vertical-spacing;
+    width: calc(100% - #{$icon-dimen + $vocab-vertical-spacing});
 
     & > * {
       flex: 1 0 0;
@@ -19,7 +16,7 @@
       padding: semi-grid-spacing(1) 0;
 
       &:not(:first-child) {
-        margin-left: grid-spacing(2);
+        margin-left: $vocab-vertical-spacing;
       }
     }
   }
@@ -38,7 +35,7 @@
         margin-top: semi-grid-spacing(1);
 
         &:first-child {
-          padding: 0 $vertical-child-spacing;
+          padding: 0 $vocab-vertical-spacing;
         }
       }
     }
@@ -46,6 +43,6 @@
 
   & > .confirm-vocab {
     background-color: $button-background;
-    margin: grid-spacing(2) $vertical-child-spacing 0;
+    margin: $vocab-vertical-spacing $vocab-vertical-spacing 0 auto;
   }
 }
