@@ -1,12 +1,14 @@
 import { Vocabulary } from 'data';
-import { Never, Objects, Try } from 'javascriptutilities';
+import { Never, Numbers, Objects, Try } from 'javascriptutilities';
 import { isDataWithValidStatus, State } from 'utils';
 import { Action } from './types';
 
 export namespace path {
-  const root = 'vocab';
+  const root = 'vocab_';
+  export const pageNumber = `${root}pageNumber`;
+  export const rowsPerPage = `${root}rowsPerPage`;
 
-  export const allVocabularies = `${root}.all`;
+  export const allVocabularies = `${root}all`;
 
   export function vocabularyItem(index: number) {
     return `${allVocabularies}.${index}`;
@@ -33,6 +35,17 @@ export const setters = {
 
   fetchVocabularies(): Action<ActionKey> {
     return { path: '', payload: undefined, type: ActionKey.FETCH_VOCABULARIES };
+  },
+
+  setPageNumber(page: number): Action<ActionKey> {
+    return { path: path.pageNumber, payload: page, type: 'DIRECT_UPDATE' };
+  },
+
+  setRowsPerPage(count: number | string): Action<ActionKey> {
+    const payload =
+      typeof count === 'number' ? count : Numbers.parseInteger(count);
+
+    return { path: path.rowsPerPage, payload, type: 'DIRECT_UPDATE' };
   },
 
   saveVocabularies(): Action<ActionKey> {
@@ -82,5 +95,13 @@ export const getters = {
     args: Parameters<typeof path.vocabularyItemProp>[0]
   ) {
     return state.valueAtNode(path.vocabularyItemProp(args));
+  },
+
+  getRowsPerPage(state: State.Type) {
+    return state.numberAtNode(path.rowsPerPage);
+  },
+
+  getPageNumber(state: State.Type) {
+    return state.numberAtNode(path.pageNumber);
   }
 };
