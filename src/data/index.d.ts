@@ -1,11 +1,13 @@
 import { NeverProp } from 'javascriptutilities';
 
-export type Vocabulary = Readonly<
-  NeverProp<{ id: unknown; word: string; meanings: VocabMeaning }>
+export type Vocabulary = NeverProp<
+  Readonly<{ id: unknown; word: string; meanings: VocabMeaning }> &
+    DataWithStatus
 >;
 
-export type VocabMeaning = Readonly<
-  NeverProp<{ id: unknown; vocab_id: unknown; def: string; pos?: string }>
+export type VocabMeaning = NeverProp<
+  Readonly<{ id: unknown; vocab_id: unknown; def: string; pos?: string }> &
+    DataWithStatus
 >;
 
 export type Status = 'active' | 'deleted';

@@ -21,11 +21,16 @@ export namespace path {
 }
 
 export enum ActionKey {
+  DELETE_VOCABULARY = 'VOCAB.DELETE_VOCABULARY',
   FETCH_VOCABULARIES = 'VOCAB.FETCH_VOCABS',
   SAVE_VOCABULARIES = 'VOCAB.SAVE_VOCABS'
 }
 
 export const setters = {
+  deleteVocabulary(vocabIndex: number): Action<ActionKey> {
+    return { path: '', payload: vocabIndex, type: ActionKey.DELETE_VOCABULARY };
+  },
+
   fetchVocabularies(): Action<ActionKey> {
     return { path: '', payload: undefined, type: ActionKey.FETCH_VOCABULARIES };
   },
