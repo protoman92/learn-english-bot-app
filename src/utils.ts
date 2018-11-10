@@ -2,6 +2,7 @@ import { DataWithStatus } from 'data';
 import { EKVObject } from 'enhanced-key-value-object';
 import { Types } from 'javascriptutilities';
 export { EKVObject as State };
+EKVObject.setDefaultAccessMode('unsafe');
 
 export function isDataWithValidStatus(object: unknown) {
   if (!object) {
