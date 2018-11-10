@@ -22,7 +22,7 @@ sagaMiddleware.run(sagas);
 
 if (
   process.env.NODE_ENV === 'development' &&
-  process.env.ENABLE_WDYU === 'true'
+  process.env.REACT_APP_ENABLE_WDYU === 'true'
 ) {
   // tslint:disable-next-line
   const { whyDidYouUpdate } = require('why-did-you-update');

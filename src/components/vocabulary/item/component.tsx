@@ -1,8 +1,11 @@
-import { IconButton, TextField } from '@material-ui/core';
 import { TextFieldProps } from '@material-ui/core/TextField';
 import { Delete } from '@material-ui/icons';
 import { getters, setters } from 'actions/vocabulary';
-import { TextFieldFont } from 'components/utils';
+import {
+  MinimalTextField,
+  StaticIconButton,
+  TextFieldFont
+} from 'components/utils';
 import DefList from 'components/vocab-def/list/component';
 import PosList from 'components/vocab-pos/list/component';
 import { UndefinedProp } from 'javascriptutilities';
@@ -29,7 +32,7 @@ function VocabularyItem({
 }: Props & DispatchProps & StateProps) {
   return (
     <div className="vocab-item-container">
-      <TextField
+      <MinimalTextField
         className="word-input"
         inputProps={{ style: { fontSize: TextFieldFont.body1 } }}
         margin="dense"
@@ -42,9 +45,9 @@ function VocabularyItem({
       <div className="vertical-divider" />
       <PosList vocabIndex={vocabIndex} />
 
-      <IconButton className="delete-icon" onClick={deleteVocab}>
+      <StaticIconButton className="delete-icon" onClick={deleteVocab}>
         <Delete />
-      </IconButton>
+      </StaticIconButton>
     </div>
   );
 }

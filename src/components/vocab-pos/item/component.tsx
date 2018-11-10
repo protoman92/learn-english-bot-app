@@ -1,7 +1,10 @@
-import { MenuItem, TextField } from '@material-ui/core';
 import { TextFieldProps } from '@material-ui/core/TextField';
 import { getters, setters } from 'actions/vocab-meaning';
-import { TextFieldFont } from 'components/utils';
+import {
+  MinimalTextField,
+  StaticMenuItem,
+  TextFieldFont
+} from 'components/utils';
 import { Selectable } from 'data';
 import { selectablePoS as allPoS } from 'data/pos';
 import { UndefinedProp } from 'javascriptutilities';
@@ -29,7 +32,7 @@ function VocabMeaningItem({
 }: Props & DispatchProps & StateProps) {
   return (
     <div className="vocab-pos-item-container">
-      <TextField
+      <MinimalTextField
         className="pos-input"
         margin="dense"
         onChange={changePos}
@@ -39,16 +42,16 @@ function VocabMeaningItem({
         value={pos}
       >
         {selectablePoS.map(({ label, value }) => (
-          <MenuItem
+          <StaticMenuItem
             key={value}
             dense={true}
             style={{ fontSize: TextFieldFont.body1 }}
             value={value}
           >
             {label}
-          </MenuItem>
+          </StaticMenuItem>
         ))}
-      </TextField>
+      </MinimalTextField>
     </div>
   );
 }

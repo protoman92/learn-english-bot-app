@@ -1,15 +1,12 @@
-import {
-  Button,
-  Divider,
-  Table,
-  TableBody,
-  TablePagination,
-  TableRow,
-  Typography
-} from '@material-ui/core';
+import { Table, TableBody, TablePagination, TableRow } from '@material-ui/core';
 import { TablePaginationProps } from '@material-ui/core/TablePagination';
 import { getters, setters } from 'actions/vocabulary';
-import { onlyUpdateWhenDeepEqual } from 'components/utils';
+import {
+  onlyUpdateWhenDeepEqual,
+  StaticButton,
+  StaticDivider,
+  StaticTypography
+} from 'components/utils';
 import Item from 'components/vocabulary/item/component';
 import { UndefinedProp } from 'javascriptutilities';
 import * as React from 'react';
@@ -45,22 +42,22 @@ function VocabularyList({
       <div className="header-container">
         {['Word', 'Definition', 'Class'].map((header, i) => (
           <span key={i}>
-            <Typography align="left" variant="subheading">
+            <StaticTypography align="left" variant="subheading">
               {header}
-            </Typography>
+            </StaticTypography>
 
             <div className="vertical-divider" />
           </span>
         ))}
       </div>
 
-      <Divider className="header-divider" />
+      <StaticDivider className="header-divider" />
 
       <div className="vocab-list">
         {chosenIndexes.map(vocabIndex => (
           <span className="item-container" key={vocabIndex}>
             <Item vocabIndex={vocabIndex} />
-            <Divider />
+            <StaticDivider />
           </span>
         ))}
       </div>
@@ -79,9 +76,9 @@ function VocabularyList({
         </TableBody>
       </Table>
 
-      <Button className="confirm-vocab" onClick={saveVocabularies}>
+      <StaticButton className="confirm-vocab" onClick={saveVocabularies}>
         Save vocabularies
-      </Button>
+      </StaticButton>
     </div>
   );
 }

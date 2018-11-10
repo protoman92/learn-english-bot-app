@@ -1,7 +1,6 @@
-import { TextField } from '@material-ui/core';
 import { TextFieldProps } from '@material-ui/core/TextField';
 import { getters, setters } from 'actions/vocab-meaning';
-import { TextFieldFont } from 'components/utils';
+import { MinimalTextField, TextFieldFont } from 'components/utils';
 import { UndefinedProp } from 'javascriptutilities';
 import * as React from 'react';
 import { connect } from 'react-redux';
@@ -24,7 +23,7 @@ function VocabMeaningItem({
 }: Props & DispatchProps & StateProps) {
   return (
     <div className="vocab-def-item-container">
-      <TextField
+      <MinimalTextField
         className="def-input"
         inputProps={{ style: { fontSize: TextFieldFont.body1 } }}
         margin="dense"
