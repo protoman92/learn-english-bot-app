@@ -9,6 +9,7 @@ import * as ReactDOM from 'react-dom';
 import { JssProvider } from 'react-jss';
 import { Provider } from 'react-redux';
 import { applyMiddleware, compose, createStore } from 'redux';
+import logger from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
 import createSagas from 'sagas';
 import './index.css';
@@ -24,7 +25,8 @@ const store = createStore(
   rootReducer(history),
   compose(
     applyMiddleware(routerMiddleware(history)),
-    applyMiddleware(sagaMiddleware)
+    applyMiddleware(sagaMiddleware),
+    applyMiddleware(logger)
   )
 );
 
