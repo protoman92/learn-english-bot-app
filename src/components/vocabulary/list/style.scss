@@ -35,12 +35,10 @@
 
     & > .item-container {
       & > * {
+        margin-top: semi-grid-spacing(1);
+
         &:first-child {
           padding: 0 $vertical-child-spacing;
-        }
-
-        &:not(:first-child) {
-          margin-top: semi-grid-spacing(1);
         }
       }
     }

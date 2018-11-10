@@ -1,6 +1,7 @@
 @import '~css/common';
 
 .vocab-item-container {
+  $delete-icon-dimen: grid-spacing(6);
   display: flex;
 
   & > * {
@@ -15,5 +16,10 @@
 
   & > .vocab-meaning-container {
     flex: 1 0 0;
+  }
+
+  & > .delete-icon {
+    height: $delete-icon-dimen;
+    width: $delete-icon-dimen;
   }
 }

@@ -1,5 +1,6 @@
-import { TextField } from '@material-ui/core';
+import { IconButton, TextField } from '@material-ui/core';
 import { TextFieldProps } from '@material-ui/core/TextField';
+import { Delete } from '@material-ui/icons';
 import { getters, setters } from 'actions/vocabulary';
 import { TextFieldFont } from 'components/utils';
 import MeaningList from 'components/vocab-meaning/list/component';
@@ -11,12 +12,18 @@ import { CombinedState } from 'reducers';
 import './style.scss';
 
 type Props = Readonly<{ vocabIndex: number }>;
-type DispatchProps = Readonly<{ changeWord: TextFieldProps['onChange'] }>;
+
+type DispatchProps = Readonly<{
+  changeWord: TextFieldProps['onChange'];
+  deleteVocab: () => void;
+}>;
+
 type StateProps = UndefinedProp<Readonly<{ word: string }>>;
 
 function VocabularyItem({
   vocabIndex,
   changeWord,
+  deleteVocab,
   word = ''
 }: Props & DispatchProps & StateProps) {
   return (
@@ -30,6 +37,10 @@ function VocabularyItem({
       />
 
       <MeaningList vocabIndex={vocabIndex} />
+
+      <IconButton className="delete-icon" onClick={deleteVocab}>
+        <Delete />
+      </IconButton>
     </div>
   );
 }
@@ -44,7 +55,8 @@ export default compose<Parameters<typeof VocabularyItem>[0], Props>(
     }),
     (dispatch, { vocabIndex: index }) => ({
       changeWord: ({ target: { value } }) =>
-        dispatch(setters.setVocabularyItemProp({ index, value, key: 'word' }))
+        dispatch(setters.setVocabularyItemProp({ index, value, key: 'word' })),
+      deleteVocab: () => dispatch(setters.deleteVocabulary(index))
     })
   )
 )(VocabularyItem);
