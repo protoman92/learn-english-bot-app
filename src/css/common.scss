@@ -13,3 +13,17 @@ $highlight-background: rgba(0, 0, 0, 0.03);
 $icon-dimen: grid-spacing(6);
 $selected-background: rgba(0, 0, 0, 0.1);
 $vocab-vertical-spacing: grid-spacing(2);
+
+@mixin progress-container {
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  bottom: 0;
+  height: 100%;
+  left: 0;
+  right: 0;
+  top: 0;
+  width: 100%;
+}

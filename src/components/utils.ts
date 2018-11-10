@@ -1,5 +1,6 @@
 import {
   Button,
+  CircularProgress,
   Divider,
   IconButton,
   MenuItem,
@@ -48,6 +49,7 @@ export const MinimalTextField = onlyUpdateForPropKeys<TextFieldProps>([
 ])(TextField);
 
 export const StaticButton = neverUpdate()(Button);
+export const StaticCircularProgress = neverUpdate()(CircularProgress);
 export const StaticDivider = neverUpdate()(Divider);
 export const StaticIconButton = neverUpdate()(IconButton);
 export const StaticMenuItem = neverUpdate()(MenuItem);

@@ -4,6 +4,7 @@ import { getters, setters } from 'actions/vocabulary';
 import {
   onlyUpdateWhenDeepEqual,
   StaticButton,
+  StaticCircularProgress,
   StaticDivider,
   StaticTypography
 } from 'components/utils';
@@ -23,13 +24,19 @@ type DispatchProps = Readonly<{
 }>;
 
 type StateProps = UndefinedProp<
-  Readonly<{ itemIndexes: number[]; pageNumber: number; rowsPerPage: number }>
+  Readonly<{
+    itemIndexes: number[];
+    pageNumber: number;
+    rowsPerPage: number;
+    showProgress: boolean;
+  }>
 >;
 
 function VocabularyList({
   itemIndexes = [],
   pageNumber = 0,
   rowsPerPage = itemIndexes.length,
+  showProgress,
   changePageNumber,
   changeRowsPerPage,
   saveVocabularies
@@ -79,6 +86,12 @@ function VocabularyList({
       <StaticButton className="confirm-vocab" onClick={saveVocabularies}>
         Save vocabularies
       </StaticButton>
+
+      {showProgress && (
+        <div className="progress-container">
+          <StaticCircularProgress />
+        </div>
+      )}
     </div>
   );
 }
@@ -89,7 +102,8 @@ export default compose<Parameters<typeof VocabularyList>[0], {}>(
     state => ({
       itemIndexes: getters.getAllVocabularyIndexes(state).value,
       pageNumber: getters.getPageNumber(state).value,
-      rowsPerPage: getters.getRowsPerPage(state).value
+      rowsPerPage: getters.getRowsPerPage(state).value,
+      showProgress: getters.getProgress(state).value
     }),
     dispatch => ({
       changePageNumber: (e, page) => dispatch(setters.setPageNumber(page)),
