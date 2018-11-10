@@ -43,10 +43,14 @@ function VocabularyList({
   return (
     <div className="vocab-container">
       <div className="header-container">
-        {['Word', 'Definition', 'Part of Speech'].map((header, i) => (
-          <Typography key={i} align="left" variant="subheading">
-            {header}
-          </Typography>
+        {['Word', 'Definition', 'Class'].map((header, i) => (
+          <>
+            <Typography key={i} align="left" variant="subheading">
+              {header}
+            </Typography>
+
+            <div className="vertical-divider" key={`divider-${i}`} />
+          </>
         ))}
       </div>
 

@@ -37,7 +37,9 @@ function VocabularyItem({
         value={word}
       />
 
+      <div className="vertical-divider" />
       <DefList vocabIndex={vocabIndex} />
+      <div className="vertical-divider" />
       <PosList vocabIndex={vocabIndex} />
 
       <IconButton className="delete-icon" onClick={deleteVocab}>

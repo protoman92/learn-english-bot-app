@@ -8,16 +8,22 @@
     display: flex;
     margin-top: grid-spacing(1);
     padding: 0 $vocab-vertical-spacing;
-    width: calc(100% - #{$icon-dimen + $vocab-vertical-spacing});
+    width: calc(100% - #{$icon-dimen});
 
     & > * {
-      flex: 1 0 0;
-      font-weight: bold;
-      padding: semi-grid-spacing(1) 0;
+      &:not(.vertical-divider) {
+        flex: 1 0 0;
+        font-weight: bold;
+        padding: semi-grid-spacing(1) 0;
+      }
 
-      &:not(:first-child) {
+      &:not(:first-child):not(:last-child) {
         margin-left: $vocab-vertical-spacing;
       }
+    }
+
+    & > .vertical-divider {
+      flex: 0 0 $divider-width;
     }
   }
 
@@ -32,10 +38,8 @@
 
     & > .item-container {
       & > * {
-        margin-top: semi-grid-spacing(1);
-
         &:first-child {
-          padding: 0 $vocab-vertical-spacing;
+          padding: 0 0 0 $vocab-vertical-spacing;
         }
       }
     }
@@ -43,6 +47,7 @@
 
   & > .confirm-vocab {
     background-color: $button-background;
-    margin: $vocab-vertical-spacing $vocab-vertical-spacing 0 auto;
+    margin: $vocab-vertical-spacing;
+    margin-left: auto;
   }
 }

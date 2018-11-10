@@ -10,13 +10,22 @@
   }
 
   & > * {
-    &:not(.delete-icon) {
+    &:not(.delete-icon):not(.vertical-divider) {
       flex: 1 0 0;
     }
+  }
+
+  & > .vertical-divider {
+    background-color: $divider-background;
+    flex: 0 0 $divider-width;
   }
 
   & > .delete-icon {
     height: $icon-dimen;
     width: $icon-dimen;
+  }
+
+  & > .vocab-meaning-container {
+    margin-bottom: grid-spacing(1);
   }
 }
