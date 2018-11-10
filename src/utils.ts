@@ -15,3 +15,9 @@ export function isDataWithValidStatus(object: unknown) {
 
   return true;
 }
+
+export function handleRoutePathName(pathname: string) {
+  return {
+    currentUserId: (pathname.match(/\/users\/(.*)/) || [])[1]
+  };
+}
