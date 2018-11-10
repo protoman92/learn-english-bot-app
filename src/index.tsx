@@ -1,22 +1,32 @@
 import { CssBaseline, jssPreset } from '@material-ui/core';
 import createAPI from 'apis';
 import App from 'components/app/App';
+import { ConnectedRouter, routerMiddleware } from 'connected-react-router';
+import { createBrowserHistory } from 'history';
 import { create, createGenerateClassName } from 'jss';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { JssProvider } from 'react-jss';
 import { Provider } from 'react-redux';
-import { applyMiddleware, createStore } from 'redux';
+import { applyMiddleware, compose, createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import createSagas from 'sagas';
 import './index.css';
 import rootReducer from './reducers';
 import registerServiceWorker from './registerServiceWorker';
 
+const history = createBrowserHistory();
 const api = createAPI({ baseURL: process.env.REACT_APP_BASE_API_URL });
 const sagas = createSagas(api);
 const sagaMiddleware = createSagaMiddleware();
-const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
+
+const store = createStore(
+  rootReducer(history),
+  compose(
+    applyMiddleware(routerMiddleware(history)),
+    applyMiddleware(sagaMiddleware)
+  )
+);
 
 sagaMiddleware.run(sagas);
 
@@ -40,7 +50,9 @@ ReactDOM.render(
   >
     <CssBaseline>
       <Provider store={store}>
-        <App />
+        <ConnectedRouter history={history}>
+          <App />
+        </ConnectedRouter>
       </Provider>
     </CssBaseline>
   </JssProvider>,

@@ -39,9 +39,11 @@ function VocabMeaningList({
 
 export default compose<Parameters<typeof VocabMeaningList>[0], Props>(
   pure,
-  connect<StateProps, {}, Props, CombinedState>((state, { vocabIndex }) => ({
-    itemCount: getters.getAllVocabMeaningCount(state, vocabIndex).value,
-    itemIndexes: getters.getAllVocabMeaningIndexes(state, vocabIndex).value
-  })),
+  connect<StateProps, {}, Props, CombinedState>(
+    ({ main: state }, { vocabIndex }) => ({
+      itemCount: getters.getAllVocabMeaningCount(state, vocabIndex).value,
+      itemIndexes: getters.getAllVocabMeaningIndexes(state, vocabIndex).value
+    })
+  ),
   onlyUpdateWhenDeepEqual()
 )(VocabMeaningList);

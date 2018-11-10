@@ -59,7 +59,7 @@ function VocabMeaningItem({
 export default compose<Parameters<typeof VocabMeaningItem>[0], Props>(
   pure,
   connect<StateProps, DispatchProps, Props, CombinedState>(
-    (state, { vocabIndex, meaningIndex }) => ({
+    ({ main: state }, { vocabIndex, meaningIndex }) => ({
       pos: getters
         .getVocabMeaningItemProp(state, {
           key: 'pos',

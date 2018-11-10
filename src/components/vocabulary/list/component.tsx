@@ -102,7 +102,7 @@ function VocabularyList({
 export default compose<Parameters<typeof VocabularyList>[0], {}>(
   pure,
   connect<StateProps, DispatchProps, {}, CombinedState>(
-    state => ({
+    ({ main: state }) => ({
       itemCount: getters.getAllVocabularyCount(state).value,
       itemIndexes: getters.getAllVocabularyIndexes(state).value,
       pageNumber: getters.getPageNumber(state).value,
