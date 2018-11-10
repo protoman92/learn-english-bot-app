@@ -31,15 +31,20 @@ function VocabMeaningItem({
     <div className="vocab-pos-item-container">
       <TextField
         className="pos-input"
-        inputProps={{ style: { fontSize: TextFieldFont.body1 } }}
         margin="dense"
         onChange={changePos}
         placeholder="Choose part of speech"
         select={true}
+        SelectProps={{ style: { fontSize: TextFieldFont.body1 } }}
         value={pos}
       >
         {selectablePoS.map(({ label, value }) => (
-          <MenuItem key={value} dense={true} value={value}>
+          <MenuItem
+            key={value}
+            dense={true}
+            style={{ fontSize: TextFieldFont.body1 }}
+            value={value}
+          >
             {label}
           </MenuItem>
         ))}

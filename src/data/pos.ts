@@ -8,4 +8,7 @@ export const selectablePoS: Array<Selectable<string>> = [
   { label: 'preposition', value: 'prep' },
   { label: 'pronoun', value: 'pron' },
   { label: 'verb', value: 'v' }
-];
+].map(item => ({
+  ...item,
+  label: `${item.label.substr(0, 1).toUpperCase()}${item.label.substr(1)}`
+}));
