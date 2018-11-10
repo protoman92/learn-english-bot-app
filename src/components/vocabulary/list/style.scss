@@ -7,23 +7,28 @@
   & > .header-container {
     display: flex;
     margin-top: grid-spacing(1);
-    padding: 0 $vocab-vertical-spacing;
+    padding-left: $vocab-vertical-spacing;
     width: calc(100% - #{$icon-dimen});
 
-    & > * {
-      &:not(.vertical-divider) {
-        flex: 1 0 0;
-        font-weight: bold;
-        padding: semi-grid-spacing(1) 0;
-      }
+    & > span {
+      display: flex;
+      flex: 1 0 0;
 
-      &:not(:first-child):not(:last-child) {
+      &:not(:first-child) {
         margin-left: $vocab-vertical-spacing;
       }
-    }
 
-    & > .vertical-divider {
-      flex: 0 0 $divider-width;
+      & > * {
+        &:not(.vertical-divider) {
+          flex: 1 0 0;
+          font-weight: bold;
+          padding: semi-grid-spacing(1) 0;
+        }
+      }
+
+      & > .vertical-divider {
+        flex: 0 0 $divider-width;
+      }
     }
   }
 
@@ -41,6 +46,10 @@
         &:first-child {
           padding: 0 0 0 $vocab-vertical-spacing;
         }
+      }
+
+      &:nth-child(odd) {
+        background-color: $highlight-background;
       }
     }
   }
