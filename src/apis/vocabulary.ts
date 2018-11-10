@@ -1,6 +1,6 @@
 import { ApisauceInstance } from 'apisauce';
 import * as Bluebird from 'bluebird';
-import { VocabMeaning, Vocabulary } from 'data';
+import { VocabMeaning as Meaning, Vocabulary } from 'data';
 import { Never, Objects } from 'javascriptutilities';
 
 export default function(
@@ -48,14 +48,11 @@ export default function(
         const meanings = Objects.values(preUpdateVocab.meanings || [])
           .filter(meaning => !!meaning)
           .map(meaning => meaning!)
-          .map((meaning): VocabMeaning => ({ ...meaning, vocab_id, user_id }));
+          .map((m): Partial<Meaning> => ({ ...m, user_id, vocab_id }));
 
+        const newMeanings = await vocabMeaningApi.saveVocabMeanings(meanings);
         const meaningKey: keyof Vocabulary = 'meanings';
-
-        return {
-          ...updatedVocab,
-          [meaningKey]: await vocabMeaningApi.saveVocabMeanings(meanings)
-        };
+        return { ...updatedVocab, [meaningKey]: newMeanings };
       });
     }
   };

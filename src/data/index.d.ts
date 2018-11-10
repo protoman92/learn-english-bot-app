@@ -1,11 +1,11 @@
-import { NeverProp } from 'javascriptutilities';
+import { Never, NeverProp } from 'javascriptutilities';
 
 export type Vocabulary = NeverProp<
   Readonly<{
     id: unknown;
     user_id: unknown;
     word: string;
-    meanings: VocabMeaning[];
+    meanings: Array<Never<Partial<VocabMeaning>>>;
   }> &
     DataWithStatus
 >;
