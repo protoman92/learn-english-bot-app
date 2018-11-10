@@ -21,6 +21,8 @@ export type VocabMeaning = NeverProp<
     DataWithStatus
 >;
 
+export type User = NeverProp<Readonly<{ id: unknown }>>;
+
 export type Status = 'active' | 'deleted';
 export type DataWithStatus = Readonly<{ status: Status }>;
 export type Selectable<T> = Readonly<{ label: T; value: T }>;
