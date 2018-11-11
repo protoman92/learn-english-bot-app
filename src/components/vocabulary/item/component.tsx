@@ -56,7 +56,7 @@ function VocabularyItem({
 export default compose<Parameters<typeof VocabularyItem>[0], Props>(
   pure,
   connect<StateProps, DispatchProps, Props, CombinedState>(
-    ({ main: state }, { vocabIndex: index }) => ({
+    (state, { vocabIndex: index }) => ({
       word: getters
         .getVocabularyItemProp(state, { index, key: 'word' })
         .stringOrFail().value

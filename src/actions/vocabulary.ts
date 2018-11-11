@@ -1,5 +1,7 @@
 import { Vocabulary } from 'data';
 import { Never, Numbers, Objects, Try } from 'javascriptutilities';
+import { CombinedState } from 'reducers';
+import { extractMainState } from 'reducers/utils';
 import { isDataWithValidStatus, State } from 'utils';
 import { Action } from './types';
 
@@ -84,19 +86,19 @@ export const setters = {
 };
 
 export const getters = {
-  getAllVocabularies(
-    state: State.Type
-  ): Try<Array<Never<Partial<Vocabulary>>>> {
+  getAllVocabularies({
+    main: state
+  }: CombinedState): Try<Array<Never<Partial<Vocabulary>>>> {
     return state
       .objectAtNode(path.allVocabularies)
       .map(vocabs => Objects.values(vocabs));
   },
 
-  getAllVocabularyCount(state: State.Type) {
+  getAllVocabularyCount(state: CombinedState) {
     return getters.getAllVocabularies(state).map(vocabs => vocabs.length);
   },
 
-  getAllVocabularyIndexes(state: State.Type): Try<number[]> {
+  getAllVocabularyIndexes(state: CombinedState): Try<number[]> {
     return getters.getAllVocabularies(state).map(vocabs =>
       vocabs
         .map((vocab, i): [unknown, number] => [vocab, i])
@@ -106,21 +108,21 @@ export const getters = {
   },
 
   getVocabularyItemProp(
-    state: State.Type,
+    state: CombinedState | State.Type,
     args: Parameters<typeof path.vocabularyItemProp>[0]
   ) {
-    return state.valueAtNode(path.vocabularyItemProp(args));
+    return extractMainState(state).valueAtNode(path.vocabularyItemProp(args));
   },
 
-  getRowsPerPage(state: State.Type) {
+  getRowsPerPage({ main: state }: CombinedState) {
     return state.numberAtNode(path.rowsPerPage);
   },
 
-  getPageNumber(state: State.Type) {
+  getPageNumber({ main: state }: CombinedState) {
     return state.numberAtNode(path.pageNumber);
   },
 
-  getProgress(state: State.Type) {
+  getProgress({ main: state }: CombinedState) {
     return state.booleanAtNode(path.progress);
   }
 };

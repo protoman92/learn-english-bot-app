@@ -1,6 +1,7 @@
 import { VocabMeaning } from 'data';
 import { Never, Objects, Try } from 'javascriptutilities';
-import { isDataWithValidStatus, State } from 'utils';
+import { CombinedState } from 'reducers';
+import { isDataWithValidStatus } from 'utils';
 import { Action } from './types';
 import { path as vocabularyPath } from './vocabulary';
 
@@ -42,7 +43,7 @@ export const setters = {
 
 export const getters = {
   getAllVocabMeanings(
-    state: State.Type,
+    { main: state }: CombinedState,
     vocabIndex: number
   ): Try<Array<Never<Partial<VocabMeaning>>>> {
     return state
@@ -50,13 +51,13 @@ export const getters = {
       .map(meanings => Objects.values(meanings));
   },
 
-  getAllVocabMeaningCount(state: State.Type, vocabIndex: number) {
+  getAllVocabMeaningCount(state: CombinedState, vocabIndex: number) {
     return getters
       .getAllVocabMeanings(state, vocabIndex)
       .map(meanings => meanings.length);
   },
 
-  getAllVocabMeaningIndexes(state: State.Type, vocabIndex: number) {
+  getAllVocabMeaningIndexes(state: CombinedState, vocabIndex: number) {
     return getters.getAllVocabMeanings(state, vocabIndex).map(meanings =>
       meanings
         .map((meaning, i): [unknown, number] => [meaning, i])
@@ -66,7 +67,7 @@ export const getters = {
   },
 
   getVocabMeaningItemProp(
-    state: State.Type,
+    { main: state }: CombinedState,
     args: Parameters<typeof path.vocabMeaningItemProp>[0]
   ) {
     return state.valueAtNode(path.vocabMeaningItemProp(args));

@@ -14,6 +14,8 @@ import { onlyUpdateForKeys, shouldUpdate } from 'recompose';
 // tslint:disable-next-line
 const deepEqual = require('deep-equal');
 
+export const MIN_TABLE_ROWS_PER_PAGE = 5;
+
 export namespace TextFieldFont {
   export const body1 = '0.875rem';
 }

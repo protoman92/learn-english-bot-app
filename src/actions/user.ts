@@ -1,5 +1,5 @@
 import { User } from 'data';
-import { State } from 'utils';
+import { CombinedState } from 'reducers';
 import { Action } from './types';
 
 export namespace path {
@@ -25,7 +25,7 @@ export const setters = {
 };
 
 export const getters = {
-  getCurrentUserProp(state: State.Type, key: keyof User) {
+  getCurrentUserProp({ main: state }: CombinedState, key: keyof User) {
     return state.valueAtNode(path.currentUserProp(key));
   }
 };

@@ -2,6 +2,7 @@ import { Table, TableBody, TablePagination, TableRow } from '@material-ui/core';
 import { TablePaginationProps } from '@material-ui/core/TablePagination';
 import { getters, setters } from 'actions/vocabulary';
 import {
+  MIN_TABLE_ROWS_PER_PAGE,
   onlyUpdateWhenDeepEqual,
   StaticButton,
   StaticCircularProgress,
@@ -37,7 +38,7 @@ function VocabularyList({
   itemCount = 0,
   itemIndexes = [],
   pageNumber = 0,
-  rowsPerPage = itemIndexes.length,
+  rowsPerPage = MIN_TABLE_ROWS_PER_PAGE,
   showProgress,
   changePageNumber,
   changeRowsPerPage,
@@ -102,7 +103,7 @@ function VocabularyList({
 export default compose<Parameters<typeof VocabularyList>[0], {}>(
   pure,
   connect<StateProps, DispatchProps, {}, CombinedState>(
-    ({ main: state }) => ({
+    state => ({
       itemCount: getters.getAllVocabularyCount(state).value,
       itemIndexes: getters.getAllVocabularyIndexes(state).value,
       pageNumber: getters.getPageNumber(state).value,
