@@ -28,7 +28,8 @@ export namespace path {
 export enum ActionKey {
   DELETE_VOCABULARY = 'VOCAB.DELETE_VOCABULARY',
   FETCH_VOCABULARIES = 'VOCAB.FETCH_VOCABS',
-  SAVE_VOCABULARIES = 'VOCAB.SAVE_VOCABS'
+  SAVE_VOCABULARIES = 'VOCAB.SAVE_VOCABS',
+  SET_ROWS_PER_PAGE = 'VOCAB.SET_ROWS_PER_PAGE'
 }
 
 export const setters = {
@@ -44,11 +45,15 @@ export const setters = {
     return { path: path.pageNumber, payload: page, type: 'DIRECT_UPDATE' };
   },
 
-  setRowsPerPage(count: number | string): Action<ActionKey> {
+  setRowsPerPage(count: number | string): Action<ActionKey, Never<number>> {
     const payload =
       typeof count === 'number' ? count : Numbers.parseInteger(count);
 
-    return { path: path.rowsPerPage, payload, type: 'DIRECT_UPDATE' };
+    return {
+      path: path.rowsPerPage,
+      payload,
+      type: ActionKey.SET_ROWS_PER_PAGE
+    };
   },
 
   saveVocabularies(): Action<ActionKey> {

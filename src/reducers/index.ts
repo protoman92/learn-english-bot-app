@@ -12,9 +12,10 @@ const allReducers = [VocabReducer];
 export default function(history: History) {
   return combineReducers<CombinedState>({
     main: (state = State.just({}), action: Action) => {
-      switch (action.type) {
-        case 'DIRECT_UPDATE':
-          return state.updatingValue(action.path, action.payload);
+      const { path, payload } = action;
+
+      if (path && payload !== undefined && payload !== null) {
+        return state.updatingValue(path, payload);
       }
 
       for (const reducer of allReducers) {
