@@ -6,8 +6,7 @@ import {
   onlyUpdateWhenDeepEqual,
   StaticButton,
   StaticCircularProgress,
-  StaticDivider,
-  StaticTypography
+  StaticDivider
 } from 'components/utils';
 import Item from 'components/vocabulary/item/component';
 import { UndefinedProp } from 'javascriptutilities';
@@ -50,20 +49,6 @@ function VocabularyList({
 
   return (
     <div className="vocab-container">
-      <div className="header-container">
-        {['Word', 'Definition', 'Class'].map((header, i) => (
-          <span key={i}>
-            <StaticTypography align="left" variant="subtitle1">
-              {header}
-            </StaticTypography>
-
-            <div className="vertical-divider" />
-          </span>
-        ))}
-      </div>
-
-      <StaticDivider className="header-divider" />
-
       <div className="vocab-list">
         {chosenIndexes.map(vocabIndex => (
           <span className="item-container" key={vocabIndex}>

@@ -8,6 +8,7 @@ import { CombinedState } from 'reducers';
 import './style.scss';
 
 type Props = Readonly<{
+  className: string;
   vocabIndex: number;
   ChildItem: React.ComponentType<
     Readonly<{ vocabIndex: number; meaningIndex: number }>
@@ -19,13 +20,14 @@ type StateProps = UndefinedProp<
 >;
 
 function VocabMeaningList({
+  className,
   vocabIndex,
   itemCount = 0,
   itemIndexes = [],
   ChildItem
 }: Props & StateProps) {
   return (
-    <div className="vocab-meaning-container">
+    <div className={`${className} vocab-meaning-container`}>
       {[...itemIndexes, itemCount].map(meaningIndex => (
         <ChildItem
           key={meaningIndex}

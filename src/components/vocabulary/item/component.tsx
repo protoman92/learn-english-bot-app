@@ -1,3 +1,4 @@
+import { Hidden } from '@material-ui/core';
 import { TextFieldProps } from '@material-ui/core/TextField';
 import { Delete } from '@material-ui/icons';
 import { getters, setters } from 'actions/vocabulary';
@@ -43,12 +44,13 @@ function VocabularyItem({
 
       <div className="vertical-divider" />
       <DefList vocabIndex={vocabIndex} />
-      <div className="vertical-divider" />
       <PosList vocabIndex={vocabIndex} />
 
-      <StaticIconButton className="delete-icon" onClick={deleteVocab}>
-        <Delete />
-      </StaticIconButton>
+      <Hidden xsDown={true}>
+        <StaticIconButton className="delete-icon" onClick={deleteVocab}>
+          <Delete />
+        </StaticIconButton>
+      </Hidden>
     </div>
   );
 }

@@ -1,16 +1,21 @@
 import MeaningList from 'components/vocab-meaning/list/component';
 import Item from 'components/vocab-pos/item/component';
-import { Omit } from 'javascriptutilities';
 import * as React from 'react';
 import { compose, pure } from 'recompose';
 
-type Props = Omit<
+type Props = Pick<
   Required<NonNullable<typeof MeaningList['defaultProps']>>,
-  'ChildItem'
+  'vocabIndex'
 >;
 
 function VocabPosList({ vocabIndex }: Props) {
-  return <MeaningList vocabIndex={vocabIndex} ChildItem={Item} />;
+  return (
+    <MeaningList
+      className="vocab-pos-list"
+      vocabIndex={vocabIndex}
+      ChildItem={Item}
+    />
+  );
 }
 
 export default compose<Props, Props>(pure)(VocabPosList);

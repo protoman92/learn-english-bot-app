@@ -38,7 +38,9 @@ function VocabMeaningItem({
         onChange={changePos}
         placeholder="Choose part of speech"
         select={true}
-        SelectProps={{ style: { fontSize: TextFieldFont.body1 } }}
+        SelectProps={{
+          style: { height: '100%', fontSize: TextFieldFont.body1 }
+        }}
         value={pos}
       >
         {selectablePoS.map(({ label, value }) => (

@@ -5,50 +5,12 @@
   flex-direction: column;
   position: relative;
 
-  & > .header-container {
-    display: flex;
-    margin-top: grid-spacing(1);
-    padding-left: $vocab-vertical-spacing;
-    width: calc(100% - #{$icon-dimen});
-
-    & > span {
-      display: flex;
-      flex: 1 0 0;
-
-      &:not(:first-child) {
-        margin-left: $vocab-vertical-spacing;
-      }
-
-      & > * {
-        &:not(.vertical-divider) {
-          flex: 1 0 0;
-          font-weight: bold;
-          padding: semi-grid-spacing(1) 0;
-        }
-      }
-
-      & > .vertical-divider {
-        flex: 0 0 $divider-width;
-      }
-    }
-  }
-
-  & > .header-divider {
-    width: 100%;
-  }
-
   & > .vocab-list {
     display: flex;
     flex-direction: column;
     width: 100%;
 
     & > .item-container {
-      & > * {
-        &:first-child {
-          padding: 0 0 0 $vocab-vertical-spacing;
-        }
-      }
-
       &:nth-child(odd) {
         background-color: $highlight-background;
       }

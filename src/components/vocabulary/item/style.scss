@@ -4,14 +4,26 @@
   display: flex;
 
   & > * {
-    &:not(:first-child) {
+    &:not(:first-child):not(.delete-icon) {
       margin-left: $vocab-vertical-spacing;
     }
   }
 
-  & > * {
-    &:not(.delete-icon):not(.vertical-divider) {
+  & > .word-input {
+    flex: 1 0 0;
+    padding-left: $vocab-vertical-spacing;
+  }
+
+  & > .vocab-meaning-container {
+    margin-bottom: grid-spacing(1);
+
+    &.vocab-def-list {
       flex: 1 0 0;
+    }
+
+    &.vocab-pos-list {
+      padding-right: $vocab-vertical-spacing;
+      width: grid-spacing(15);
     }
   }
 
@@ -23,9 +35,5 @@
   & > .delete-icon {
     height: $icon-dimen;
     width: $icon-dimen;
-  }
-
-  & > .vocab-meaning-container {
-    margin-bottom: grid-spacing(1);
   }
 }
