@@ -1,37 +1,67 @@
-import { ActionKey, getters, setters } from 'actions/vocabulary';
+import { getters as UserGetters } from 'actions/user';
+import {
+  ActionKey,
+  getters as VocabGetters,
+  setters as VocabSetters
+} from 'actions/vocabulary';
 import { Unpacked } from 'javascriptutilities';
 import { all, call, put, select, takeLatest } from 'redux-saga/effects';
 
 export default function(vocabApi: import('apis').Api['vocabulary']) {
   function* fetchVocabularies(api: typeof vocabApi) {
-    yield put(setters.setProgress(true));
+    try {
+      yield put(VocabSetters.setProgress(true));
 
-    const vocabs: Unpacked<
-      ReturnType<typeof api['fetchVocabularies']>
-    > = yield call(api.fetchVocabularies);
+      const userId: ReturnType<
+        typeof UserGetters['getCurrentUserProp']
+      > = yield select(UserGetters.getCurrentUserProp, 'id');
 
-    yield put(setters.setVocabularies(vocabs));
-    yield put(setters.setProgress(false));
+      if (!userId.value) {
+        yield put(VocabSetters.setVocabularies([]));
+      }
+
+      const vocabs: Unpacked<
+        ReturnType<typeof api['fetchVocabularies']>
+      > = yield call(api.fetchVocabularies, userId.value);
+
+      yield put(VocabSetters.setVocabularies(vocabs));
+    } finally {
+      yield put(VocabSetters.setProgress(false));
+    }
   }
 
   function* saveVocabularies(api: typeof vocabApi) {
-    yield put(setters.setProgress(true));
+    try {
+      yield put(VocabSetters.setProgress(true));
 
-    const vocabs: ReturnType<
-      typeof getters['getAllVocabularies']
-    > = yield select(getters.getAllVocabularies);
+      const userId: ReturnType<
+        typeof UserGetters['getCurrentUserProp']
+      > = yield select(UserGetters.getCurrentUserProp, 'id');
 
-    const validVocabs = vocabs
-      .getOrElse([])
-      .filter(vocab => !!vocab)
-      .map(vocab => vocab!);
+      if (!userId.value) {
+        yield put(VocabSetters.setVocabularies([]));
+      }
 
-    const updatedVocabs: Unpacked<
-      ReturnType<typeof api['saveVocabularies']>
-    > = yield call(api.saveVocabularies, validVocabs);
+      const stateVocabs: ReturnType<
+        typeof VocabGetters['getAllVocabularies']
+      > = yield select(VocabGetters.getAllVocabularies);
 
-    yield put(setters.setVocabularies(updatedVocabs));
-    yield put(setters.setProgress(false));
+      const validVocabs = stateVocabs
+        .getOrElse([])
+        .filter(vocab => !!vocab)
+        .map(vocab => vocab!);
+
+      const updatedVocabs: Unpacked<
+        ReturnType<typeof api['saveVocabularies']>
+      > = yield call(api.saveVocabularies, {
+        user_id: userId.value,
+        vocabs: validVocabs
+      });
+
+      yield put(VocabSetters.setVocabularies(updatedVocabs));
+    } finally {
+      yield put(VocabSetters.setProgress(false));
+    }
   }
 
   return function*() {

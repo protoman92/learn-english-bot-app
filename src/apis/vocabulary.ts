@@ -8,9 +8,10 @@ export default function(
   vocabMeaningApi: ReturnType<typeof import('./vocab-meaning').default>
 ) {
   return {
-    async fetchVocabularies() {
+    async fetchVocabularies(user_id: unknown) {
       const vocabs = (await api.get<Never<Array<Never<Vocabulary>>>>(
-        'vocabularies'
+        'vocabularies',
+        { filter: JSON.stringify({ where: { user_id } }) }
       )).data;
 
       if (!vocabs) {
@@ -29,23 +30,26 @@ export default function(
       });
     },
 
-    async saveVocabularies(vocabs: Array<Partial<Vocabulary>>) {
-      const updatedVocabs = Bluebird.map(vocabs, vocab =>
-        api.patch<Partial<Vocabulary>>('vocabularies', vocab)
-      ).map(response => response.data);
+    async saveVocabularies({
+      user_id,
+      vocabs
+    }: Readonly<{ user_id: unknown; vocabs: Array<Partial<Vocabulary>> }>) {
+      const userIdKey: keyof Vocabulary = 'user_id';
 
-      return Bluebird.map(updatedVocabs, async updatedVocab => {
-        const preUpdateVocab = vocabs.find(
-          ({ id }) => !!updatedVocab && updatedVocab.id === id
-        );
+      return Bluebird.map(vocabs, async vocab => {
+        const updatedVocab = (await api.patch<Partial<Vocabulary>>(
+          'vocabularies',
+          { ...vocab, [userIdKey]: user_id },
+          { params: { filter: JSON.stringify({ where: { user_id } }) } }
+        )).data;
 
-        if (!updatedVocab || !preUpdateVocab) {
-          return undefined;
+        if (!updatedVocab) {
+          return null;
         }
 
-        const { id: vocab_id, user_id } = updatedVocab;
+        const { id: vocab_id } = updatedVocab;
 
-        const meanings = Objects.values(preUpdateVocab.meanings || [])
+        const meanings = Objects.values(vocab.meanings || [])
           .filter(meaning => !!meaning)
           .map(meaning => meaning!)
           .map((m): Partial<Meaning> => ({ ...m, user_id, vocab_id }));
