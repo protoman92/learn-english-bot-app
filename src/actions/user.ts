@@ -5,6 +5,7 @@ import { Action } from './types';
 export namespace path {
   const root = 'user_';
   export const currentUser = `${root}currentUser`;
+  export const currentTab = `${root}currentTab`;
 
   export function currentUserProp(key: keyof User) {
     return `${currentUser}.${key}`;
@@ -21,11 +22,23 @@ export const setters = {
       payload: value,
       type: 'DIRECT_UPDATE'
     };
+  },
+
+  setCurrentTab(tabIndex: number) {
+    return {
+      path: path.currentTab,
+      payload: tabIndex,
+      type: 'DIRECT_UPDATE'
+    };
   }
 };
 
 export const getters = {
   getCurrentUserProp({ main: state }: CombinedState, key: keyof User) {
     return state.valueAtNode(path.currentUserProp(key));
+  },
+
+  getCurrentTab({ main: state }: CombinedState) {
+    return state.numberAtNode(path.currentTab);
   }
 };

@@ -4,9 +4,13 @@ import {
   Divider,
   IconButton,
   MenuItem,
+  Tab,
+  Tabs,
   TextField,
   Typography
 } from '@material-ui/core';
+import { TabProps } from '@material-ui/core/Tab';
+import { TabsProps } from '@material-ui/core/Tabs';
 import { TextFieldProps } from '@material-ui/core/TextField';
 import { ComponentType } from 'react';
 import { onlyUpdateForKeys, shouldUpdate } from 'recompose';
@@ -50,6 +54,8 @@ export const MinimalTextField = onlyUpdateForPropKeys<TextFieldProps>([
   'value'
 ])(TextField);
 
+export const MinimalTabs = onlyUpdateForPropKeys<TabsProps>(['value'])(Tabs);
+export const MinimalTab = onlyUpdateForPropKeys<TabProps>(['selected'])(Tab);
 export const StaticButton = neverUpdate()(Button);
 export const StaticCircularProgress = neverUpdate()(CircularProgress);
 export const StaticDivider = neverUpdate()(Divider);
