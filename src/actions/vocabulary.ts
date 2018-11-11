@@ -1,3 +1,4 @@
+import { MIN_TABLE_ROWS_PER_PAGE } from 'components/utils';
 import { Vocabulary } from 'data';
 import { Never, Numbers, Objects, Try } from 'javascriptutilities';
 import { CombinedState } from 'reducers';
@@ -29,7 +30,8 @@ export enum ActionKey {
   DELETE_VOCABULARY = 'VOCAB.DELETE_VOCABULARY',
   FETCH_VOCABULARIES = 'VOCAB.FETCH_VOCABS',
   SAVE_VOCABULARIES = 'VOCAB.SAVE_VOCABS',
-  SET_ROWS_PER_PAGE = 'VOCAB.SET_ROWS_PER_PAGE'
+  SET_ROWS_PER_PAGE = 'VOCAB.SET_ROWS_PER_PAGE',
+  SET_PAGE_NUMBER = 'VOCAB.SET_PAGE_NUMBER'
 }
 
 export const setters = {
@@ -41,8 +43,12 @@ export const setters = {
     return { path: '', payload: undefined, type: ActionKey.FETCH_VOCABULARIES };
   },
 
-  setPageNumber(page: number): Action<ActionKey> {
-    return { path: path.pageNumber, payload: page, type: 'DIRECT_UPDATE' };
+  setPageNumber(page: number): Action<ActionKey, Never<number>> {
+    return {
+      path: path.pageNumber,
+      payload: page,
+      type: ActionKey.SET_PAGE_NUMBER
+    };
   },
 
   setRowsPerPage(count: number | string): Action<ActionKey, Never<number>> {
@@ -125,6 +131,15 @@ export const getters = {
 
   getPageNumber({ main: state }: CombinedState) {
     return state.numberAtNode(path.pageNumber);
+  },
+
+  getVocabularyFetchCount(args: CombinedState) {
+    const rowsPerPage = getters
+      .getRowsPerPage(args)
+      .getOrElse(MIN_TABLE_ROWS_PER_PAGE);
+
+    const pageNumber = getters.getPageNumber(args).getOrElse(0);
+    return rowsPerPage * (pageNumber + 1);
   },
 
   getProgress({ main: state }: CombinedState) {

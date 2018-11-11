@@ -1,3 +1,4 @@
+import { Action } from 'actions/types';
 import { getters as UserGetters } from 'actions/user';
 import {
   ActionKey,
@@ -6,11 +7,16 @@ import {
 } from 'actions/vocabulary';
 import { Unpacked } from 'javascriptutilities';
 import { all, call, put, select, takeLatest } from 'redux-saga/effects';
+import { scanActionPredicate } from './utils';
 
 export default function(vocabApi: import('apis').Api['vocabulary']) {
   function* fetchVocabularies(api: typeof vocabApi) {
     try {
       yield put(VocabSetters.setProgress(true));
+
+      const limit: ReturnType<
+        typeof VocabGetters['getVocabularyFetchCount']
+      > = yield select(VocabGetters.getVocabularyFetchCount);
 
       const userId: ReturnType<
         typeof UserGetters['getCurrentUserProp']
@@ -22,7 +28,7 @@ export default function(vocabApi: import('apis').Api['vocabulary']) {
 
       const vocabs: Unpacked<
         ReturnType<typeof api['fetchVocabularies']>
-      > = yield call(api.fetchVocabularies, userId.value);
+      > = yield call(api.fetchVocabularies, { limit, user_id: userId.value });
 
       yield put(VocabSetters.setVocabularies(vocabs));
     } finally {
@@ -64,10 +70,33 @@ export default function(vocabApi: import('apis').Api['vocabulary']) {
     }
   }
 
+  function* updateTotalFetchCount(
+    api: typeof vocabApi,
+    action: Action<ActionKey, number>
+  ) {
+    yield fetchVocabularies(api);
+  }
+
   return function*() {
     yield all([
       takeLatest(ActionKey.FETCH_VOCABULARIES, fetchVocabularies, vocabApi),
-      takeLatest(ActionKey.SAVE_VOCABULARIES, saveVocabularies, vocabApi)
+      takeLatest(ActionKey.SAVE_VOCABULARIES, saveVocabularies, vocabApi),
+      takeLatest(
+        [
+          scanActionPredicate(
+            VocabSetters.setRowsPerPage,
+            ActionKey.SET_ROWS_PER_PAGE,
+            (prev, next) => prev < next
+          ),
+          scanActionPredicate(
+            VocabSetters.setPageNumber,
+            ActionKey.SET_PAGE_NUMBER,
+            (prev, next) => prev < next
+          )
+        ],
+        updateTotalFetchCount,
+        vocabApi
+      )
     ]);
   };
 }

@@ -8,13 +8,17 @@ export default function(
   vocabMeaningApi: ReturnType<typeof import('./vocab-meaning').default>
 ) {
   return {
-    async fetchVocabularies(user_id: unknown) {
+    async fetchVocabularies({
+      user_id,
+      limit
+    }: Readonly<{ user_id: unknown; limit?: number }>) {
       const deletedStatus: Status = 'deleted';
 
       const vocabs = (await api.get<Never<Array<Never<Vocabulary>>>>(
         'vocabularies',
         {
           filter: JSON.stringify({
+            limit,
             where: { user_id, status: { neq: deletedStatus } } as Record<
               keyof Vocabulary,
               unknown
