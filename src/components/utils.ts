@@ -13,6 +13,7 @@ import { TabProps } from '@material-ui/core/Tab';
 import { TabsProps } from '@material-ui/core/Tabs';
 import { TextFieldProps } from '@material-ui/core/TextField';
 import { ComponentType } from 'react';
+import SwipeableViews, { SwipeableViewsProps } from 'react-swipeable-views';
 import { onlyUpdateForKeys, shouldUpdate } from 'recompose';
 
 // tslint:disable-next-line
@@ -56,6 +57,11 @@ export const MinimalTextField = onlyUpdateForPropKeys<TextFieldProps>([
 
 export const MinimalTabs = onlyUpdateForPropKeys<TabsProps>(['value'])(Tabs);
 export const MinimalTab = onlyUpdateForPropKeys<TabProps>(['selected'])(Tab);
+
+export const MinimalSwipeableViews = onlyUpdateForKeys<SwipeableViewsProps>([
+  'index'
+])(SwipeableViews);
+
 export const StaticButton = neverUpdate()(Button);
 export const StaticCircularProgress = neverUpdate()(CircularProgress);
 export const StaticDivider = neverUpdate()(Divider);

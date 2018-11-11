@@ -1,13 +1,14 @@
 import { TabsProps } from '@material-ui/core/Tabs';
 import { getters, setters } from 'actions/user';
 import {
+  MinimalSwipeableViews,
   MinimalTab,
   MinimalTabs,
   neverUpdate,
   StaticDivider
 } from 'components/utils';
 import VocabList from 'components/vocabulary/list/component';
-import { NeverProp } from 'javascriptutilities';
+import { UndefinedProp } from 'javascriptutilities';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
@@ -15,7 +16,7 @@ import { CombinedState } from 'reducers';
 import './style.scss';
 
 type DispatchProps = Readonly<{ changeTab: TabsProps['onChange'] }>;
-type StateProps = Readonly<NeverProp<{ tabIndex: number }>>;
+type StateProps = Readonly<UndefinedProp<{ tabIndex: number }>>;
 
 function UserPage({ changeTab, tabIndex = 0 }: DispatchProps & StateProps) {
   return (
@@ -33,7 +34,10 @@ function UserPage({ changeTab, tabIndex = 0 }: DispatchProps & StateProps) {
 
       <StaticDivider />
 
-      <VocabList />
+      <MinimalSwipeableViews index={tabIndex}>
+        <VocabList />
+        <div />
+      </MinimalSwipeableViews>
     </div>
   );
 }
