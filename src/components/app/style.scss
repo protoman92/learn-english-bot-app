@@ -1,5 +1,14 @@
+@import '~css/common';
+
 .App {
   text-align: center;
+
+  .loadable-progress {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    min-height: grid-spacing(20);
+  }
 }
 
 .App-logo {

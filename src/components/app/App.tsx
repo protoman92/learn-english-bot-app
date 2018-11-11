@@ -7,7 +7,12 @@ import './style.scss';
 
 const LoadableUser = Loadable({
   loader: () => import('components/user/component'),
-  loading: () => <StaticCircularProgress />
+
+  loading: () => (
+    <div className="loadable-progress">
+      <StaticCircularProgress />
+    </div>
+  )
 });
 
 class App extends React.Component {
