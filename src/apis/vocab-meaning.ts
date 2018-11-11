@@ -1,14 +1,23 @@
 import { ApisauceInstance } from 'apisauce';
 import * as Bluebird from 'bluebird';
-import { VocabMeaning } from 'data';
+import { Status, VocabMeaning } from 'data';
 import { Never } from 'javascriptutilities';
-import * as joinUrl from 'url-join';
 
 export default function(api: ApisauceInstance) {
   return {
     async fetchVocabMeanings({ vocab_id }: Readonly<{ vocab_id: unknown }>) {
+      const deletedStatus: Status = 'deleted';
+
       return (await api.get<Never<Array<Never<VocabMeaning>>>>(
-        joinUrl('vocabularies', `${vocab_id}`, 'meanings')
+        'vocab_meanings',
+        {
+          filter: JSON.stringify({
+            where: { vocab_id, status: { neq: deletedStatus } } as Record<
+              keyof VocabMeaning,
+              unknown
+            >
+          })
+        }
       )).data;
     },
 
