@@ -7,6 +7,7 @@ import {
   StaticButton,
   StaticDivider,
   StaticIconButton,
+  StaticTypography,
   TextFieldFont
 } from 'components/utils';
 import DefList from 'components/vocab-def/list/component';
@@ -36,6 +37,18 @@ function VocabularyItem({
   return (
     <div className="vocab-item-container">
       <div className="main-container">
+        <Hidden xsDown={true}>
+          <StaticTypography
+            className="index-count"
+            align="center"
+            variant="body1"
+          >
+            {vocabIndex + 1}
+          </StaticTypography>
+
+          <div className="vertical-divider" />
+        </Hidden>
+
         <MinimalTextField
           className="word-input"
           inputProps={{ style: { fontSize: TextFieldFont.body1 } }}

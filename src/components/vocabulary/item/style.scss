@@ -8,14 +8,18 @@
     display: flex;
 
     & > * {
-      &:not(:first-child):not(.delete-icon) {
+      &:not(.delete-icon) {
         margin-left: $vocab-vertical-spacing;
       }
     }
 
+    & > .index-count {
+      // Add some pixels to align with MUI text field.
+      padding-top: grid-spacing(1) + 3px;
+    }
+
     & > .word-input {
       flex: 1 0 0;
-      padding-left: $vocab-vertical-spacing;
     }
 
     & > .vocab-meaning-container {
