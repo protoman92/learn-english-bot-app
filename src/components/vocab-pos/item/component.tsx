@@ -36,7 +36,7 @@ function VocabMeaningItem({
         className="pos-input"
         margin="dense"
         onChange={changePos}
-        placeholder="Choose part of speech"
+        placeholder="Part of speech"
         select={true}
         SelectProps={{
           style: { height: '100%', fontSize: TextFieldFont.body1 }

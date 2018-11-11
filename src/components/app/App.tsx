@@ -1,8 +1,14 @@
-import VocabList from 'components/vocabulary/list/component';
+import { StaticCircularProgress } from 'components/utils';
 import logo from 'logo.svg';
 import * as React from 'react';
+import * as Loadable from 'react-loadable';
 import { Route, Switch } from 'react-router';
 import './style.scss';
+
+const LoadableUser = Loadable({
+  loader: () => import('components/user/component'),
+  loading: () => <StaticCircularProgress />
+});
 
 class App extends React.Component {
   public render() {
@@ -13,7 +19,7 @@ class App extends React.Component {
         </header>
 
         <Switch>
-          <Route exact={true} path={'/users/:id'} component={VocabList} />
+          <Route exact={true} path={'/users/:id'} component={LoadableUser} />
         </Switch>
       </div>
     );

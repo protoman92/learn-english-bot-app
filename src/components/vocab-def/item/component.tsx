@@ -28,7 +28,7 @@ function VocabMeaningItem({
         inputProps={{ style: { fontSize: TextFieldFont.body1 } }}
         margin="dense"
         onChange={changeDef}
-        placeholder="Enter definition"
+        placeholder="Definition"
         value={def}
       />
     </div>
