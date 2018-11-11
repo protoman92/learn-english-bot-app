@@ -2,38 +2,43 @@
 
 .vocab-item-container {
   display: flex;
+  flex-direction: column;
 
-  & > * {
-    &:not(:first-child):not(.delete-icon) {
-      margin-left: $vocab-vertical-spacing;
+  & > .main-container {
+    display: flex;
+
+    & > * {
+      &:not(:first-child):not(.delete-icon) {
+        margin-left: $vocab-vertical-spacing;
+      }
     }
-  }
 
-  & > .word-input {
-    flex: 1 0 0;
-    padding-left: $vocab-vertical-spacing;
-  }
-
-  & > .vocab-meaning-container {
-    margin-bottom: grid-spacing(1);
-
-    &.vocab-def-list {
+    & > .word-input {
       flex: 1 0 0;
+      padding-left: $vocab-vertical-spacing;
     }
 
-    &.vocab-pos-list {
-      padding-right: $vocab-vertical-spacing;
-      width: grid-spacing(15);
+    & > .vocab-meaning-container {
+      margin-bottom: grid-spacing(1);
+
+      &.vocab-def-list {
+        flex: 1 0 0;
+      }
+
+      &.vocab-pos-list {
+        padding-right: $vocab-vertical-spacing;
+        width: grid-spacing(18);
+      }
     }
-  }
 
-  & > .vertical-divider {
-    background-color: $divider-background;
-    flex: 0 0 $divider-width;
-  }
+    & > .vertical-divider {
+      background-color: $divider-background;
+      flex: 0 0 $divider-width;
+    }
 
-  & > .delete-icon {
-    height: $icon-dimen;
-    width: $icon-dimen;
+    & > .delete-icon {
+      height: $icon-dimen;
+      width: $icon-dimen;
+    }
   }
 }

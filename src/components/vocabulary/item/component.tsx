@@ -4,6 +4,8 @@ import { Delete } from '@material-ui/icons';
 import { getters, setters } from 'actions/vocabulary';
 import {
   MinimalTextField,
+  StaticButton,
+  StaticDivider,
   StaticIconButton,
   TextFieldFont
 } from 'components/utils';
@@ -33,23 +35,30 @@ function VocabularyItem({
 }: Props & DispatchProps & StateProps) {
   return (
     <div className="vocab-item-container">
-      <MinimalTextField
-        className="word-input"
-        inputProps={{ style: { fontSize: TextFieldFont.body1 } }}
-        margin="dense"
-        onChange={changeWord}
-        placeholder={'Enter word'}
-        value={word}
-      />
+      <div className="main-container">
+        <MinimalTextField
+          className="word-input"
+          inputProps={{ style: { fontSize: TextFieldFont.body1 } }}
+          margin="dense"
+          onChange={changeWord}
+          placeholder={'Enter word'}
+          value={word}
+        />
 
-      <div className="vertical-divider" />
-      <DefList vocabIndex={vocabIndex} />
-      <PosList vocabIndex={vocabIndex} />
+        <div className="vertical-divider" />
+        <DefList vocabIndex={vocabIndex} />
+        <PosList vocabIndex={vocabIndex} />
 
-      <Hidden xsDown={true}>
-        <StaticIconButton className="delete-icon" onClick={deleteVocab}>
-          <Delete />
-        </StaticIconButton>
+        <Hidden xsDown={true}>
+          <StaticIconButton className="delete-icon" onClick={deleteVocab}>
+            <Delete />
+          </StaticIconButton>
+        </Hidden>
+      </div>
+
+      <Hidden smUp={true}>
+        <StaticDivider />
+        <StaticButton onClick={deleteVocab}>Delete vocabulary</StaticButton>
       </Hidden>
     </div>
   );
