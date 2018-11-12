@@ -2,6 +2,7 @@ import { ApisauceInstance } from 'apisauce';
 import * as Bluebird from 'bluebird';
 import { Status, VocabMeaning as Meaning, Vocabulary } from 'data';
 import { Never, Objects } from 'javascriptutilities';
+import { dataOrThrow } from './utils';
 
 export default function(
   api: ApisauceInstance,
@@ -14,9 +15,8 @@ export default function(
     }: Readonly<{ user_id: unknown; limit?: number }>) {
       const deletedStatus: Status = 'deleted';
 
-      const vocabs = (await api.get<Never<Array<Never<Vocabulary>>>>(
-        'vocabularies',
-        {
+      const vocabs = await api
+        .get<Array<Never<Vocabulary>>>('vocabularies', {
           filter: JSON.stringify({
             limit,
             where: { user_id, status: { neq: deletedStatus } } as Record<
@@ -24,12 +24,8 @@ export default function(
               unknown
             >
           })
-        }
-      )).data;
-
-      if (!vocabs) {
-        return null;
-      }
+        })
+        .then(dataOrThrow);
 
       return Bluebird.map(vocabs, async vocab => {
         if (!vocab) {
@@ -50,15 +46,15 @@ export default function(
       const userIdKey: keyof Vocabulary = 'user_id';
 
       return Bluebird.map(vocabs, async vocab => {
-        const updatedVocab = (await api.patch<Partial<Vocabulary>>(
-          'vocabularies',
-          { ...vocab, [userIdKey]: user_id },
-          { params: { filter: JSON.stringify({ where: { user_id } }) } }
-        )).data;
-
-        if (!updatedVocab) {
-          return null;
-        }
+        const updatedVocab = await api
+          .patch<Partial<Vocabulary>>(
+            'vocabularies',
+            { ...vocab, [userIdKey]: user_id },
+            {
+              params: { filter: JSON.stringify({ where: { user_id } }) }
+            }
+          )
+          .then(dataOrThrow);
 
         const { id: vocab_id } = updatedVocab;
 
