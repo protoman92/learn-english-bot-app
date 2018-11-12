@@ -79,7 +79,8 @@ export function hookUpSocialLoginButton(
         null,
         dispatch => ({
           onLoginFailure: console.log,
-          onLoginSuccess: args => dispatch(UserSetters.authenticateUser(args))
+          onLoginSuccess: args =>
+            dispatch(UserSetters.authenticateRawUser(args))
         })
       )
     )(({ children, onLoginFailure, onLoginSuccess }) => (

@@ -19,7 +19,6 @@ export function dataOrThrow<T>({
   );
 }
 
-export function mapAuthData(authData: unknown) {
-  console.log(authData);
+export function parseRawAuthData(authData: unknown) {
   return authData;
 }

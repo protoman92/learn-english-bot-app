@@ -13,15 +13,24 @@ export namespace path {
 }
 
 export enum ActionKey {
-  AUTHENTICATE_USER = 'USER.AUTHENTICATE_USER'
+  AUTHENTICATE_PARSED_USER = 'USER.AUTHENTICATE_PARSED_USER',
+  AUTHENTICATE_RAW_USER = 'USER.AUTHENTICATE_RAW_USER'
 }
 
 export const setters = {
-  authenticateUser(authData: unknown): Action<ActionKey> {
+  authenticateParsedUser(authData: unknown): Action<ActionKey> {
     return {
       path: '',
       payload: authData,
-      type: ActionKey.AUTHENTICATE_USER
+      type: ActionKey.AUTHENTICATE_PARSED_USER
+    };
+  },
+
+  authenticateRawUser(authData: unknown): Action<ActionKey> {
+    return {
+      path: '',
+      payload: authData,
+      type: ActionKey.AUTHENTICATE_RAW_USER
     };
   },
 
