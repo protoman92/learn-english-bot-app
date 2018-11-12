@@ -12,9 +12,11 @@ import {
 import { TabProps } from '@material-ui/core/Tab';
 import { TabsProps } from '@material-ui/core/Tabs';
 import { TextFieldProps } from '@material-ui/core/TextField';
+import { setters as UserSetters } from 'actions/user';
 import { Omit } from 'javascriptutilities';
 import * as React from 'react';
 import { ComponentType } from 'react';
+import { connect } from 'react-redux';
 import SocialLogin, {
   MinimalSocialLoginProps,
   SocialLoginProps
@@ -59,7 +61,10 @@ export function neverUpdate<P>() {
 }
 
 export function hookUpSocialLoginButton(
-  options: Omit<SocialLoginProps, keyof MinimalSocialLoginProps>
+  options: Omit<
+    SocialLoginProps,
+    keyof MinimalSocialLoginProps | 'onLoginFailure' | 'onLoginSuccess'
+  >
 ): (
   LoginButton: typeof FacebookButton
 ) => ComponentType<MinimalSocialLoginProps> {
@@ -68,11 +73,24 @@ export function hookUpSocialLoginButton(
       <LoginButton onClick={triggerLogin}>{children}</LoginButton>
     ));
 
-    return compose<SocialLoginProps, MinimalSocialLoginProps>(neverUpdate())(
-      ({ children }) => (
-        <SocialComponent {...options}>{children}</SocialComponent>
+    return compose<SocialLoginProps, MinimalSocialLoginProps>(
+      neverUpdate(),
+      connect<{}, Pick<SocialLoginProps, 'onLoginFailure' | 'onLoginSuccess'>>(
+        null,
+        dispatch => ({
+          onLoginFailure: console.log,
+          onLoginSuccess: args => dispatch(UserSetters.authenticateUser(args))
+        })
       )
-    );
+    )(({ children, onLoginFailure, onLoginSuccess }) => (
+      <SocialComponent
+        {...options}
+        onLoginFailure={onLoginFailure}
+        onLoginSuccess={onLoginSuccess}
+      >
+        {children}
+      </SocialComponent>
+    ));
   };
 }
 
@@ -96,7 +114,5 @@ export const StaticTypography = neverUpdate()(Typography);
 
 export const FacebookLoginButton = hookUpSocialLoginButton({
   appId: process.env.REACT_APP_FACEBOOK_APP_ID,
-  onLoginFailure: console.log,
-  onLoginSuccess: console.log,
   provider: 'facebook'
 })(FacebookButton);
