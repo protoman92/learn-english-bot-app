@@ -1,10 +1,9 @@
-import { ApisauceInstance } from 'apisauce';
-import { dataOrThrow } from './utils';
+import { WrappedApiInstance } from './index';
 
-export default function(api: ApisauceInstance) {
+export default function(apiInstance: WrappedApiInstance) {
   return {
     async authenticate(authData: unknown) {
-      return api.post('/authenticate', authData).then(dataOrThrow);
+      return apiInstance.post('/authenticate', authData);
     }
   };
 }

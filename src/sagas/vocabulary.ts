@@ -1,15 +1,15 @@
-import { Action } from 'actions/types';
 import { getters as UserGetters } from 'actions/user';
 import {
   ActionKey,
   getters as VocabGetters,
   setters as VocabSetters
 } from 'actions/vocabulary';
+import { AppApi } from 'apis';
 import { Unpacked } from 'javascriptutilities';
 import { all, call, put, select, takeLatest } from 'redux-saga/effects';
 import { scanActionPredicate } from './utils';
 
-export default function(vocabApi: import('apis').Api['vocabulary']) {
+export default function(vocabApi: AppApi['vocabulary']) {
   function* fetchVocabularies(api: typeof vocabApi) {
     try {
       yield put(VocabSetters.setProgress(true));
@@ -70,10 +70,7 @@ export default function(vocabApi: import('apis').Api['vocabulary']) {
     }
   }
 
-  function* updateTotalFetchCount(
-    api: typeof vocabApi,
-    action: Action<ActionKey, number>
-  ) {
+  function* updateTotalFetchCount(api: typeof vocabApi) {
     yield fetchVocabularies(api);
   }
 

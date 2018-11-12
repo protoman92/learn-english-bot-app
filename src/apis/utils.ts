@@ -18,3 +18,8 @@ export function dataOrThrow<T>({
     )} - expected either an error or a valid response body.`
   );
 }
+
+export function mapAuthData(authData: unknown) {
+  console.log(authData);
+  return authData;
+}
