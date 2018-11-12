@@ -12,11 +12,23 @@ export namespace path {
   }
 }
 
+export enum ActionKey {
+  AUTHENTICATE_USER = 'USER.AUTHENTICATE_USER'
+}
+
 export const setters = {
+  authenticateUser(authData: unknown): Action<ActionKey> {
+    return {
+      path: '',
+      payload: authData,
+      type: ActionKey.AUTHENTICATE_USER
+    };
+  },
+
   setCurrentUserProp({
     key,
     value
-  }: Readonly<{ key: keyof User; value: unknown }>): Action<never> {
+  }: Readonly<{ key: keyof User; value: unknown }>): Action<ActionKey> {
     return {
       path: path.currentUserProp(key),
       payload: value,
