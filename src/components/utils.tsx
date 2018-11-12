@@ -12,9 +12,16 @@ import {
 import { TabProps } from '@material-ui/core/Tab';
 import { TabsProps } from '@material-ui/core/Tabs';
 import { TextFieldProps } from '@material-ui/core/TextField';
+import { Omit } from 'javascriptutilities';
+import * as React from 'react';
 import { ComponentType } from 'react';
+import SocialLogin, {
+  MinimalSocialLoginProps,
+  SocialLoginProps
+} from 'react-social-login';
+import { FacebookLoginButton as FacebookButton } from 'react-social-login-buttons';
 import SwipeableViews, { SwipeableViewsProps } from 'react-swipeable-views';
-import { onlyUpdateForKeys, shouldUpdate } from 'recompose';
+import { compose, onlyUpdateForKeys, shouldUpdate } from 'recompose';
 
 // tslint:disable-next-line
 const deepEqual = require('deep-equal');
@@ -51,6 +58,24 @@ export function neverUpdate<P>() {
   return shouldUpdate<P>(() => false);
 }
 
+export function hookUpSocialLoginButton(
+  options: Omit<SocialLoginProps, keyof MinimalSocialLoginProps>
+): (
+  LoginButton: typeof FacebookButton
+) => ComponentType<MinimalSocialLoginProps> {
+  return LoginButton => {
+    const SocialComponent = SocialLogin(({ children, triggerLogin }) => (
+      <LoginButton onClick={triggerLogin}>{children}</LoginButton>
+    ));
+
+    return compose<SocialLoginProps, MinimalSocialLoginProps>(neverUpdate())(
+      ({ children }) => (
+        <SocialComponent {...options}>{children}</SocialComponent>
+      )
+    );
+  };
+}
+
 export const MinimalTextField = onlyUpdateForPropKeys<TextFieldProps>([
   'value'
 ])(TextField);
@@ -68,3 +93,10 @@ export const StaticDivider = neverUpdate()(Divider);
 export const StaticIconButton = neverUpdate()(IconButton);
 export const StaticMenuItem = neverUpdate()(MenuItem);
 export const StaticTypography = neverUpdate()(Typography);
+
+export const FacebookLoginButton = hookUpSocialLoginButton({
+  appId: process.env.REACT_APP_FACEBOOK_APP_ID,
+  onLoginFailure: console.log,
+  onLoginSuccess: console.log,
+  provider: 'facebook'
+})(FacebookButton);
