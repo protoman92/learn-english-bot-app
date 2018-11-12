@@ -1,0 +1,12 @@
+@import '~css/common';
+
+.login-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+
+  & > * {
+    margin-top: grid-spacing(2);
+    width: 50%;
+  }
+}

@@ -5,14 +5,20 @@ import * as Loadable from 'react-loadable';
 import { Route, Switch } from 'react-router';
 import './style.scss';
 
+const LoadableProgress = () => (
+  <div className="loadable-progress">
+    <StaticCircularProgress />
+  </div>
+);
+
+const LoadableLogin = Loadable({
+  loader: () => import('components/authentication/login/component'),
+  loading: LoadableProgress
+});
+
 const LoadableUser = Loadable({
   loader: () => import('components/user/component'),
-
-  loading: () => (
-    <div className="loadable-progress">
-      <StaticCircularProgress />
-    </div>
-  )
+  loading: LoadableProgress
 });
 
 class App extends React.Component {
@@ -24,6 +30,7 @@ class App extends React.Component {
         </header>
 
         <Switch>
+          <Route exact={true} path={'/login'} component={LoadableLogin} />
           <Route exact={true} path={'/users/:id'} component={LoadableUser} />
         </Switch>
       </div>
