@@ -23,8 +23,8 @@ const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
   rootReducer(history),
   compose(
-    applyMiddleware(routerMiddleware(history)),
-    applyMiddleware(sagaMiddleware)
+    applyMiddleware(sagaMiddleware),
+    applyMiddleware(routerMiddleware(history))
   )
 );
 

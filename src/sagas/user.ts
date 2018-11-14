@@ -1,8 +1,9 @@
 import { Action } from 'actions/types';
-import { ActionKey, setters } from 'actions/user';
+import { ActionKey, getters, setters } from 'actions/user';
 import { parseRawAuthData } from 'actions/utils';
 import { AppApi } from 'apis';
-import { all, put, takeLatest } from 'redux-saga/effects';
+import { push } from 'connected-react-router';
+import { all, put, select, takeLatest } from 'redux-saga/effects';
 
 export default function(userApi: AppApi['user']) {
   function* authenticateRawUser({ payload: authData }: Action<ActionKey>) {
@@ -29,6 +30,13 @@ export default function(userApi: AppApi['user']) {
   ) {
     const authResult = yield switchAuthenticate(api, payload);
     yield put(setters.setAuthenticationResult(authResult));
+
+    const userId: ReturnType<typeof getters.getCurrentUserProp> = yield select(
+      getters.getCurrentUserProp,
+      'id'
+    );
+
+    yield put(push(`/users/${userId.getOrThrow()}`));
   }
 
   return function*() {
