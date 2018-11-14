@@ -1,25 +1,35 @@
 import { ApisauceInstance } from 'apisauce';
+import { AxiosRequestConfig } from 'axios';
+import { Undefined } from 'javascriptutilities';
+import { FetchApiParams, UpdateApiParams, WrappedApiInstance } from './types';
 import { dataOrThrow } from './utils';
 
-type _FetchApiInstance = Pick<ApisauceInstance, 'get'>;
-type _UpdateApiInstance = Pick<ApisauceInstance, 'post' | 'patch'>;
-
-export default (
-  api: _FetchApiInstance & _UpdateApiInstance
-): Record<
-  keyof _FetchApiInstance,
-  <T>(...args: Parameters<_FetchApiInstance['get']>) => Promise<T>
-> &
-  Record<
-    keyof _UpdateApiInstance,
-    <T>(...args: Parameters<_UpdateApiInstance['post']>) => Promise<T>
-  > => {
+export function wrapDataOrThrow(api: ApisauceInstance): WrappedApiInstance {
   return {
-    get: <T>(...args: Parameters<_FetchApiInstance['get']>) =>
-      api.get<T>(...args).then(dataOrThrow),
-    patch: <T>(...args: Parameters<_UpdateApiInstance['post']>) =>
+    get: <T>(...args: FetchApiParams) => api.get<T>(...args).then(dataOrThrow),
+    patch: <T>(...args: UpdateApiParams) =>
       api.patch<T>(...args).then(dataOrThrow),
-    post: <T>(...args: Parameters<_UpdateApiInstance['post']>) =>
+    post: <T>(...args: UpdateApiParams) =>
       api.post<T>(...args).then(dataOrThrow)
   };
-};
+}
+
+export function injectHeaders(
+  api: WrappedApiInstance,
+  getHeaders: () => {}
+): WrappedApiInstance {
+  function appendHeaders(
+    config: Undefined<AxiosRequestConfig>
+  ): AxiosRequestConfig {
+    return {
+      ...config,
+      headers: { ...(config || {}).headers, ...getHeaders() }
+    };
+  }
+
+  return {
+    get: (url, param, config) => api.get(url, param, appendHeaders(config)),
+    patch: (url, data, config) => api.patch(url, data, appendHeaders(config)),
+    post: (url, data, config) => api.post(url, data, appendHeaders(config))
+  };
+}
