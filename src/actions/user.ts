@@ -1,11 +1,13 @@
 import { User } from 'data';
 import { CombinedState } from 'reducers';
 import { Action } from './types';
+import { parseRawAuthData } from './utils';
 
 export namespace path {
   const root = 'user_';
   export const currentUser = `${root}currentUser`;
   export const currentTab = `${root}currentTab`;
+  export const accessToken = `${root}accessToken`;
 
   export function currentUserProp(key: keyof User) {
     return `${currentUser}.${key}`;
@@ -14,11 +16,27 @@ export namespace path {
 
 export enum ActionKey {
   AUTHENTICATE_PARSED_USER = 'USER.AUTHENTICATE_PARSED_USER',
-  AUTHENTICATE_RAW_USER = 'USER.AUTHENTICATE_RAW_USER'
+  AUTHENTICATE_RAW_USER = 'USER.AUTHENTICATE_RAW_USER',
+  SET_AUTHENTICATION_RESULT = 'USER.SET_AUTHENTICATION_RESULT'
 }
 
 export const setters = {
-  authenticateParsedUser(authData: unknown): Action<ActionKey> {
+  /**
+   * The data that comes in via social login may not be in the correct format.
+   * We need an intermediate action to catch this data and a saga to call the
+   * appropriate mapper.
+   */
+  authenticateRawUser(authData: unknown): Action<ActionKey> {
+    return {
+      path: '',
+      payload: authData,
+      type: ActionKey.AUTHENTICATE_RAW_USER
+    };
+  },
+
+  authenticateParsedUser(
+    authData: ReturnType<typeof parseRawAuthData>
+  ): Action<ActionKey, ReturnType<typeof parseRawAuthData>> {
     return {
       path: '',
       payload: authData,
@@ -26,11 +44,11 @@ export const setters = {
     };
   },
 
-  authenticateRawUser(authData: unknown): Action<ActionKey> {
+  setAuthenticationResult(result: unknown): Action<ActionKey> {
     return {
       path: '',
-      payload: authData,
-      type: ActionKey.AUTHENTICATE_RAW_USER
+      payload: result,
+      type: ActionKey.SET_AUTHENTICATION_RESULT
     };
   },
 
@@ -45,7 +63,7 @@ export const setters = {
     };
   },
 
-  setCurrentTab(tabIndex: number) {
+  setCurrentTab(tabIndex: number): Action<ActionKey> {
     return {
       path: path.currentTab,
       payload: tabIndex,
@@ -61,5 +79,9 @@ export const getters = {
 
   getCurrentTab({ main: state }: CombinedState) {
     return state.numberAtNode(path.currentTab);
+  },
+
+  getAccessToken({ main: state }: CombinedState) {
+    return state.stringAtNode(path.accessToken).stringOrFail();
   }
 };

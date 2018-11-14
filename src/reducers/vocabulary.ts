@@ -1,12 +1,8 @@
-import { ActionKey, getters, path, setters } from 'actions/vocabulary';
+import { ActionKey, getters, path } from 'actions/vocabulary';
 import { Status } from 'data';
-import { Undefined, Unpacked } from 'javascriptutilities';
-import { State } from 'utils';
+import { OptionalReducer } from './types';
 
-function _deleteVocabulary(
-  state: State.Type,
-  { payload: index, type }: ReturnType<Unpacked<typeof setters>>
-): Undefined<State.Type> {
+const _deleteVocabulary: OptionalReducer = (state, { payload: index }) => {
   if (typeof index === 'number') {
     const deletedStatus: Status = 'deleted';
 
@@ -23,9 +19,9 @@ function _deleteVocabulary(
   }
 
   return undefined;
-}
+};
 
-const _: typeof _deleteVocabulary = (state, action) => {
+const _: OptionalReducer = (state, action) => {
   switch (action.type) {
     case ActionKey.DELETE_VOCABULARY:
       return _deleteVocabulary(state, action);

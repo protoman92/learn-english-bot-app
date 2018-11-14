@@ -3,11 +3,12 @@ import { connectRouter, RouterState } from 'connected-react-router';
 import { History } from 'history';
 import { combineReducers } from 'redux';
 import { State } from 'utils';
+import UserReducer from './user';
 import VocabReducer from './vocabulary';
 
 export type CombinedState = Readonly<{ main: State.Type; router: RouterState }>;
 
-const allReducers = [VocabReducer];
+const allReducers: Array<typeof UserReducer> = [UserReducer, VocabReducer];
 
 export default function(history: History) {
   return combineReducers<CombinedState>({
