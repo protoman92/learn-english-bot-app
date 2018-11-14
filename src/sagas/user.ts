@@ -1,30 +1,34 @@
 import { Action } from 'actions/types';
 import { ActionKey, setters } from 'actions/user';
+import { parseRawAuthData } from 'actions/utils';
 import { AppApi } from 'apis';
-import { parseRawAuthData } from 'apis/utils';
-import { Unpacked } from 'javascriptutilities';
-import { all, call, put, takeLatest } from 'redux-saga/effects';
+import { all, put, takeLatest } from 'redux-saga/effects';
 
 export default function(userApi: AppApi['user']) {
   function* authenticateRawUser({ payload: authData }: Action<ActionKey>) {
-    const parsedData = yield parseRawAuthData(authData);
-    put(setters.authenticateParsedUser(parsedData));
+    const parsedData: ReturnType<
+      typeof parseRawAuthData
+    > = yield parseRawAuthData(authData);
+
+    yield put(setters.authenticateParsedUser(parsedData));
+  }
+
+  async function switchAuthenticate(
+    api: typeof userApi,
+    { provider, ...authData }: ReturnType<typeof parseRawAuthData>
+  ) {
+    switch (provider) {
+      case 'facebook':
+        return api.authenticateFacebook(authData);
+    }
   }
 
   function* authenticateParsedUser(
     api: typeof userApi,
-    { payload }: Action<ActionKey>
+    { payload }: Action<ActionKey, ReturnType<typeof parseRawAuthData>>
   ) {
-    try {
-      const authResult: Unpacked<
-        ReturnType<typeof api['authenticate']>
-      > = yield call(api.authenticate, payload);
-
-      console.log('Auth result', authResult);
-    } catch (e) {
-      console.log(e);
-      yield e;
-    }
+    const authResult = yield switchAuthenticate(api, payload);
+    yield put(setters.setAuthenticationResult(authResult));
   }
 
   return function*() {

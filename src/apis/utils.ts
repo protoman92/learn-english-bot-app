@@ -18,7 +18,3 @@ export function dataOrThrow<T>({
     )} - expected either an error or a valid response body.`
   );
 }
-
-export function parseRawAuthData(authData: unknown) {
-  return authData;
-}
