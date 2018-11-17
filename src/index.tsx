@@ -1,5 +1,8 @@
 import { CssBaseline, jssPreset } from '@material-ui/core';
+import { getters as UserGetters } from 'actions/user';
 import createAPI from 'apis';
+import { injectAuthToken, wrapDataOrThrow } from 'apis/wrapper';
+import apisauce from 'apisauce';
 import App from 'components/app/App';
 import { ConnectedRouter, routerMiddleware } from 'connected-react-router';
 import { createBrowserHistory } from 'history';
@@ -14,11 +17,19 @@ import createSagas from 'sagas';
 import './index.css';
 import rootReducer from './reducers';
 import registerServiceWorker from './registerServiceWorker';
+import { composeObject } from './utils';
 
-const history = createBrowserHistory();
-const api = createAPI({ baseURL: process.env.REACT_APP_BASE_API_URL });
-const sagas = createSagas(api);
+const apiInstance = composeObject(
+  wrapDataOrThrow(
+    apisauce.create({ baseURL: process.env.REACT_APP_BASE_API_URL })
+  ),
+  injectAuthToken(() => UserGetters.getAccessToken(store.getState()).value)
+);
+
+const appApis = createAPI(apiInstance);
+const sagas = createSagas(appApis);
 const sagaMiddleware = createSagaMiddleware();
+const history = createBrowserHistory();
 
 const store = createStore(
   rootReducer(history),

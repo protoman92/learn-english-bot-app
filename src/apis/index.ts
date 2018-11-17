@@ -1,8 +1,7 @@
-import apisauce, { ApisauceConfig } from 'apisauce';
+import { WrappedApiInstance } from './types';
 import createUserApi from './user';
 import createVocabMeaningApi from './vocab-meaning';
 import createVocabularyApi from './vocabulary';
-import { wrapDataOrThrow } from './wrapper';
 
 export type AppApi = Readonly<{
   user: ReturnType<typeof createUserApi>;
@@ -10,14 +9,12 @@ export type AppApi = Readonly<{
   vocabMeaning: ReturnType<typeof createVocabMeaningApi>;
 }>;
 
-export default function(config: Pick<ApisauceConfig, 'baseURL'>): AppApi {
-  const apiInstance = apisauce.create(config);
-  const wrappedApiInstance = wrapDataOrThrow(apiInstance);
-  const vocabMeaning = createVocabMeaningApi(wrappedApiInstance);
+export default function(apiInstance: WrappedApiInstance): AppApi {
+  const vocabMeaning = createVocabMeaningApi(apiInstance);
 
   return {
-    user: createUserApi(wrappedApiInstance),
+    user: createUserApi(apiInstance),
     vocabMeaning,
-    vocabulary: createVocabularyApi(wrappedApiInstance, vocabMeaning)
+    vocabulary: createVocabularyApi(apiInstance, vocabMeaning)
   };
 }

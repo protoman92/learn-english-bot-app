@@ -1,6 +1,6 @@
 import { ApiResponse } from 'apisauce';
 
-export function dataOrThrow<T>({
+export function dataOrErr<T>({
   ok,
   data,
   originalError,

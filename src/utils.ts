@@ -21,3 +21,17 @@ export function handleRoutePathName(pathname: string) {
     currentUserId: (pathname.match(/\/users\/(.*)/) || [])[1]
   };
 }
+
+/**
+ * Compose an object with wrappers. Wrapped object from one wrapper becomes
+ * input for the next wrapper.
+ */
+export function composeObject<T>(root: T, ...fns: Array<(root: T) => T>): T {
+  let wrapped = root;
+
+  for (const fn of fns) {
+    wrapped = fn(wrapped);
+  }
+
+  return wrapped;
+}
