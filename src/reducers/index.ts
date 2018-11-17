@@ -10,6 +10,25 @@ import VocabReducer from './vocabulary';
 
 const allReducers: Array<typeof UserReducer> = [UserReducer, VocabReducer];
 
+export function transformStateForPersistence() {
+  return createTransform(
+    (state, key: keyof CombinedState) => {
+      if (key === 'main') {
+        return State.just(state).deepClonedObject;
+      }
+
+      return state;
+    },
+    (raw, key: keyof CombinedState) => {
+      if (key === 'main') {
+        return State.just(raw);
+      }
+
+      return raw;
+    }
+  );
+}
+
 export default function(history: History) {
   return combineReducers<CombinedState>({
     main: (state = State.just({}), action: Action) => {
