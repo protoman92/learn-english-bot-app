@@ -1,7 +1,7 @@
 import { MIN_TABLE_ROWS_PER_PAGE } from 'components/utils';
 import { Vocabulary as Vocab } from 'data';
 import { Never, Numbers, Objects, Try } from 'javascriptutilities';
-import { CombinedState } from 'reducers';
+import { CombinedState } from 'reducers/types';
 import { extractMainState } from 'reducers/utils';
 import { isDataWithValidStatus, State } from 'utils';
 import { Action } from './types';

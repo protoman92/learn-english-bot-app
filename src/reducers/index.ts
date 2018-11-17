@@ -1,12 +1,12 @@
 import { Action } from 'actions/types';
-import { connectRouter, RouterState } from 'connected-react-router';
+import { connectRouter } from 'connected-react-router';
 import { History } from 'history';
 import { combineReducers } from 'redux';
+import { createTransform } from 'redux-persist';
 import { State } from 'utils';
+import { CombinedState } from './types';
 import UserReducer from './user';
 import VocabReducer from './vocabulary';
-
-export type CombinedState = Readonly<{ main: State.Type; router: RouterState }>;
 
 const allReducers: Array<typeof UserReducer> = [UserReducer, VocabReducer];
 

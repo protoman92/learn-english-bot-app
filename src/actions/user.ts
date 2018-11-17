@@ -1,5 +1,5 @@
 import { User } from 'data';
-import { CombinedState } from 'reducers';
+import { CombinedState } from 'reducers/types';
 import { Action } from './types';
 import { parseRawAuthData } from './utils';
 

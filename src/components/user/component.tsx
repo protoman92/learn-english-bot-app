@@ -12,7 +12,7 @@ import { UndefinedProp } from 'javascriptutilities';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
-import { CombinedState } from 'reducers';
+import { CombinedState } from 'reducers/types';
 import './style.scss';
 
 type DispatchProps = Readonly<{ changeTab: TabsProps['onChange'] }>;

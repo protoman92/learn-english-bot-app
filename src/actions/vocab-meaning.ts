@@ -1,6 +1,6 @@
 import { VocabMeaning } from 'data';
 import { Never, Objects, Try } from 'javascriptutilities';
-import { CombinedState } from 'reducers';
+import { CombinedState } from 'reducers/types';
 import { isDataWithValidStatus } from 'utils';
 import { Action } from './types';
 import { path as vocabularyPath } from './vocabulary';
