@@ -1,4 +1,4 @@
-import { WrappedApiInstance } from './index';
+import { WrappedApiInstance } from './types';
 
 export default function(apiInstance: WrappedApiInstance) {
   return {

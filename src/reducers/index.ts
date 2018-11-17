@@ -13,10 +13,8 @@ const allReducers: Array<typeof UserReducer> = [UserReducer, VocabReducer];
 export default function(history: History) {
   return combineReducers<CombinedState>({
     main: (state = State.just({}), action: Action) => {
-      const { path, payload } = action;
-
-      if (path && payload !== undefined && payload !== null) {
-        return state.updatingValue(path, payload);
+      if (action.path) {
+        return state.updatingValue(action.path, action.payload);
       }
 
       for (const reducer of allReducers) {

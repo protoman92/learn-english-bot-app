@@ -26,7 +26,7 @@ export const setters = {
    * We need an intermediate action to catch this data and a saga to call the
    * appropriate mapper.
    */
-  authenticateRawUser(authData: unknown): Action<ActionKey> {
+  authenticateRawUser(authData: unknown): Action {
     return {
       path: '',
       payload: authData,
@@ -36,7 +36,7 @@ export const setters = {
 
   authenticateParsedUser(
     authData: ReturnType<typeof parseRawAuthData>
-  ): Action<ActionKey, ReturnType<typeof parseRawAuthData>> {
+  ): Action<ReturnType<typeof parseRawAuthData>> {
     return {
       path: '',
       payload: authData,
@@ -44,7 +44,7 @@ export const setters = {
     };
   },
 
-  setAuthenticationResult(result: unknown): Action<ActionKey> {
+  setAuthenticationResult(result: unknown): Action {
     return {
       path: '',
       payload: result,
@@ -55,7 +55,7 @@ export const setters = {
   setCurrentUserProp({
     key,
     value
-  }: Readonly<{ key: keyof User; value: unknown }>): Action<ActionKey> {
+  }: Readonly<{ key: keyof User; value: unknown }>): Action {
     return {
       path: path.currentUserProp(key),
       payload: value,
@@ -63,7 +63,7 @@ export const setters = {
     };
   },
 
-  setCurrentTab(tabIndex: number): Action<ActionKey> {
+  setCurrentTab(tabIndex: number): Action {
     return {
       path: path.currentTab,
       payload: tabIndex,

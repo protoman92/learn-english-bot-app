@@ -1,5 +1,5 @@
 import { MIN_TABLE_ROWS_PER_PAGE } from 'components/utils';
-import { Vocabulary } from 'data';
+import { Vocabulary as Vocab } from 'data';
 import { Never, Numbers, Objects, Try } from 'javascriptutilities';
 import { CombinedState } from 'reducers';
 import { extractMainState } from 'reducers/utils';
@@ -11,7 +11,6 @@ export namespace path {
   export const pageNumber = `${root}pageNumber`;
   export const rowsPerPage = `${root}rowsPerPage`;
   export const progress = `${root}progress`;
-
   export const allVocabularies = `${root}all`;
 
   export function vocabularyItem(index: number) {
@@ -21,7 +20,7 @@ export namespace path {
   export function vocabularyItemProp({
     index,
     key
-  }: Readonly<{ index: number; key: keyof Vocabulary }>) {
+  }: Readonly<{ index: number; key: keyof Vocab }>) {
     return `${vocabularyItem(index)}.${key}`;
   }
 }
@@ -35,15 +34,15 @@ export enum ActionKey {
 }
 
 export const setters = {
-  deleteVocabulary(vocabIndex: number): Action<ActionKey> {
+  deleteVocabulary(vocabIndex: number): Action {
     return { path: '', payload: vocabIndex, type: ActionKey.DELETE_VOCABULARY };
   },
 
-  fetchVocabularies(): Action<ActionKey> {
+  fetchVocabularies(): Action {
     return { path: '', payload: undefined, type: ActionKey.FETCH_VOCABULARIES };
   },
 
-  setPageNumber(page: number): Action<ActionKey, Never<number>> {
+  setPageNumber(page: number): Action<Never<number>> {
     return {
       path: path.pageNumber,
       payload: page,
@@ -51,7 +50,7 @@ export const setters = {
     };
   },
 
-  setRowsPerPage(count: number | string): Action<ActionKey, Never<number>> {
+  setRowsPerPage(count: number | string): Action<Never<number>> {
     const payload =
       typeof count === 'number' ? count : Numbers.parseInteger(count);
 
@@ -62,47 +61,43 @@ export const setters = {
     };
   },
 
-  saveVocabularies(): Action<ActionKey> {
+  saveVocabularies(): Action {
     return { path: '', payload: undefined, type: ActionKey.SAVE_VOCABULARIES };
   },
 
-  setVocabularies(
-    vocabs: Never<Array<Never<Partial<Vocabulary>>>>
-  ): Action<ActionKey> {
+  setVocabularies(vocabs: Never<Array<Never<Partial<Vocab>>>>): Action {
     return {
       path: path.allVocabularies,
       payload: vocabs,
-      type: 'DIRECT_UPDATE'
+      type: ''
     };
   },
 
   setVocabularyItemProp(
     args: Parameters<typeof path.vocabularyItemProp>[0] &
       Readonly<{ value: unknown }>
-  ): Action<ActionKey> {
+  ): Action {
     return {
       path: path.vocabularyItemProp(args),
       payload: args.value,
-      type: 'DIRECT_UPDATE'
+      type: ''
     };
   },
 
-  setProgress(enabled: boolean): Action<ActionKey> {
+  setProgress(enabled: boolean): Action {
     return {
       path: path.progress,
       payload: enabled,
-      type: 'DIRECT_UPDATE'
+      type: ''
     };
   }
 };
 
 export const getters = {
-  getAllVocabularies({
-    main: state
-  }: CombinedState): Try<Array<Never<Partial<Vocabulary>>>> {
+  getAllVocabularies({ main: state }: CombinedState) {
     return state
       .objectAtNode(path.allVocabularies)
-      .map(vocabs => Objects.values(vocabs));
+      .map((vocabs): Array<Never<Partial<Vocab>>> => Objects.values(vocabs));
   },
 
   getAllVocabularyCount(state: CombinedState) {
@@ -112,9 +107,9 @@ export const getters = {
   getAllVocabularyIndexes(state: CombinedState): Try<number[]> {
     return getters.getAllVocabularies(state).map(vocabs =>
       vocabs
-        .map((vocab, i): [unknown, number] => [vocab, i])
-        .filter(([vocab]) => isDataWithValidStatus(vocab))
-        .map(([vocab, i]) => i)
+        .map((vocab, i) => ({ vocab, i }))
+        .filter(({ vocab }) => isDataWithValidStatus(vocab))
+        .map(({ i }) => i)
     );
   },
 

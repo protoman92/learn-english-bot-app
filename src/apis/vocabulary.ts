@@ -1,7 +1,7 @@
 import * as Bluebird from 'bluebird';
 import { Status, VocabMeaning as Meaning, Vocabulary } from 'data';
 import { Never, Objects } from 'javascriptutilities';
-import { WrappedApiInstance } from './index';
+import { WrappedApiInstance } from './types';
 
 export default function(
   apiInstance: WrappedApiInstance,

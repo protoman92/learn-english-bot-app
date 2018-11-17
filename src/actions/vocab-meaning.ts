@@ -32,11 +32,11 @@ export const setters = {
   setVocabMeaningItemProp(
     args: Parameters<typeof path.vocabMeaningItemProp>[0] &
       Readonly<{ value: unknown }>
-  ): Action<never> {
+  ): Action {
     return {
       path: path.vocabMeaningItemProp(args),
       payload: args.value,
-      type: 'DIRECT_UPDATE'
+      type: ''
     };
   }
 };
@@ -60,9 +60,9 @@ export const getters = {
   getAllVocabMeaningIndexes(state: CombinedState, vocabIndex: number) {
     return getters.getAllVocabMeanings(state, vocabIndex).map(meanings =>
       meanings
-        .map((meaning, i): [unknown, number] => [meaning, i])
-        .filter(([meaning]) => isDataWithValidStatus(meaning))
-        .map(([_meaning, i]) => i)
+        .map((meaning, i) => ({ meaning, i }))
+        .filter(({ meaning }) => isDataWithValidStatus(meaning))
+        .map(({ i }) => i)
     );
   },
 

@@ -26,7 +26,7 @@ export default function(userApi: AppApi['user']) {
 
   function* authenticateParsedUser(
     api: typeof userApi,
-    { payload }: Action<ActionKey, ReturnType<typeof parseRawAuthData>>
+    { payload }: Action<ReturnType<typeof parseRawAuthData>>
   ) {
     const authResult = yield switchAuthenticate(api, payload);
     yield put(setters.setAuthenticationResult(authResult));

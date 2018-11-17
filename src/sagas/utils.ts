@@ -2,11 +2,11 @@ import { Action } from 'actions/types';
 import { Never, Undefined } from 'javascriptutilities';
 import { Predicate } from 'redux-saga';
 
-export function scanActionPredicate<Type, Payload>(
-  actionFn: (...args: any[]) => Action<Type, Never<Payload>>,
-  actionType: Type,
+export function scanActionPredicate<Payload>(
+  actionFn: (...args: any[]) => Action<Never<Payload>>,
+  actionType: string,
   compare: (prev: Payload, next: Payload) => boolean
-): Predicate<Action<Type, Payload>> {
+): Predicate<Action<Payload>> {
   let prev: Undefined<Payload>;
 
   return ({ type: nextType, payload: next }) => {
